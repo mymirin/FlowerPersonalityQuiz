@@ -1,0 +1,2870 @@
+<!doctype html>
+<html lang="th">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+        <title>คุณคือดอกไม้อะไร?</title>
+        <meta name="description" content="แบบทดสอบ 10 ข้อ ค้นหาดอกไม้ที่สะท้อนตัวตนของคุณ" />
+        <meta property="og:title" content="คุณคือดอกไม้อะไร?" />
+        <meta property="og:description" content="แบบทดสอบ 10 ข้อ ค้นหาดอกไม้ที่สะท้อนตัวตนของคุณ" />
+        <meta property="og:type" content="website" />
+        <meta name="theme-color" content="#FFF0F4" />
+        <meta name="color-scheme" content="light only" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap"
+        />
+        <style>
+            :root {
+                color-scheme: light only;
+                --bg1: #fff0f4;
+                --bg2: #fff9f5;
+                --tx: #a85b72;
+                --tx2: #c98fa1;
+                --tx3: #ddb4c0;
+                --ac: #f49bb4;
+                --sel: #c4708c;
+                --cd: #ffffff;
+                --cdl: #fbe0e9;
+                --sh: 0 10px 26px -14px rgba(168, 91, 114, 0.45);
+                --sh-b: 0 10px 22px -10px rgba(196, 112, 140, 0.55);
+            }
+            * {
+                box-sizing: border-box;
+                -webkit-tap-highlight-color: transparent;
+            }
+            /* ไม่ให้แตะสองครั้งแล้วซูม (แต่ยังหุบ/กางสองนิ้วซูมได้ตามปกติ) */
+            html,
+            body,
+            button,
+            a,
+            input {
+                touch-action: manipulation;
+            }
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background: linear-gradient(170deg, var(--bg1) 0%, var(--bg2) 62%, var(--bg1) 100%);
+                background-attachment: fixed;
+                color: var(--tx);
+                font-family:
+                    "IBM Plex Sans Thai",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 16.5px;
+                line-height: 1.85;
+                -webkit-font-smoothing: antialiased;
+                min-height: 100svh;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                overflow-x: hidden;
+            }
+            * {
+                -webkit-user-drag: none;
+                user-select: none;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+            }
+
+            /* ---------- floating petals ---------- */
+            .petals {
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+                overflow: hidden;
+            }
+            .pt {
+                position: absolute;
+                border-radius: 62% 0 62% 0;
+                background: var(--cdl);
+                opacity: 0.75;
+                animation: drift 14s ease-in-out infinite;
+            }
+            .pt.b {
+                background: #fde7d8;
+                opacity: 0.6;
+            }
+            .pt.c {
+                background: #f6e2ec;
+                opacity: 0.7;
+            }
+            @keyframes drift {
+                0%,
+                100% {
+                    transform: translate3d(0, 0, 0) rotate(var(--r, 20deg));
+                }
+                50% {
+                    transform: translate3d(0, -16px, 0) rotate(calc(var(--r, 20deg) + 12deg));
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .pt {
+                    animation: none;
+                }
+            }
+
+            .shell {
+                width: 100%;
+                max-width: 470px;
+                margin: 0 auto;
+                padding: 0 22px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                z-index: 1;
+            }
+
+            /* ---------- top ---------- */
+            .top {
+                display: flex;
+                justify-content: flex-end;
+                padding: 15px 0 2px;
+                min-height: 52px;
+            }
+            .lang {
+                display: inline-flex;
+                border: 1px solid var(--cdl);
+                border-radius: 999px;
+                overflow: hidden;
+                background: rgba(255, 255, 255, 0.75);
+                backdrop-filter: blur(6px);
+            }
+            .lang button {
+                border: 0;
+                background: transparent;
+                font-family: inherit;
+                font-size: 12px;
+                font-weight: 500;
+                letter-spacing: 0.06em;
+                color: var(--tx2);
+                padding: 5px 13px;
+                cursor: pointer;
+                transition: 0.18s;
+            }
+            .lang button[aria-pressed="true"] {
+                background: var(--sel);
+                color: #fff;
+            }
+            .lang button:focus-visible {
+                outline: 2px solid var(--ac);
+                outline-offset: -2px;
+            }
+
+            /* ---------- screens ---------- */
+            .screen {
+                display: none;
+                flex: 1;
+                flex-direction: column;
+                padding-bottom: 38px;
+            }
+            .screen.on {
+                display: flex;
+            }
+
+            /* ---------- buttons ---------- */
+            .btn {
+                font-family: "IBM Plex Sans Thai", sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+                border-radius: 999px;
+                padding: 14px 34px;
+                cursor: pointer;
+                border: 1px solid transparent;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition:
+                    transform 0.16s,
+                    box-shadow 0.16s,
+                    filter 0.16s,
+                    background 0.16s,
+                    color 0.16s;
+            }
+            .btn:active {
+                transform: scale(0.96);
+            }
+            .btn:focus-visible {
+                outline: 2px solid var(--ac);
+                outline-offset: 3px;
+            }
+            .btn-main {
+                background: linear-gradient(135deg, #d687a0, #c4708c);
+                color: #fff;
+                box-shadow: var(--sh-b);
+            }
+            .btn-main:hover {
+                filter: brightness(1.06);
+            }
+            .btn-ghost {
+                background: var(--cd);
+                color: var(--tx);
+                border-color: var(--cdl);
+                box-shadow: var(--sh);
+            }
+            .btn-ghost:hover {
+                border-color: var(--ac);
+            }
+            .btn-text {
+                background: none;
+                border: 0;
+                color: var(--tx3);
+                font-size: 13.5px;
+                padding: 9px 10px;
+                cursor: pointer;
+                font-family: inherit;
+                border-radius: 8px;
+            }
+            .btn-text:hover {
+                color: var(--tx);
+            }
+            .btn-text:focus-visible {
+                outline: 2px solid var(--ac);
+                outline-offset: 2px;
+            }
+
+            /* ---------- intro (pages 1–5) ---------- */
+            #s-intro {
+                justify-content: center;
+                text-align: center;
+                padding-top: 4px;
+            }
+            .slide {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                animation: soft 0.5s ease both;
+            }
+            .slide.on {
+                display: flex;
+            }
+            @keyframes soft {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .slide {
+                    animation: none;
+                }
+            }
+            .emo {
+                font-size: 31px;
+                line-height: 1;
+                margin-bottom: 16px;
+                filter: drop-shadow(0 4px 8px rgba(168, 91, 114, 0.18));
+            }
+            .emo svg {
+                width: 54px;
+                height: 54px;
+                display: block;
+                margin: 0 auto;
+                animation: bob 3.6s ease-in-out infinite;
+            }
+            @keyframes bob {
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-3.5px);
+                }
+            }
+            .ico-in {
+                display: inline-block;
+                width: 23px;
+                height: 23px;
+                vertical-align: -5px;
+            }
+            .ico-in svg {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .emo svg {
+                    animation: none;
+                }
+            }
+            .k {
+                color: var(--tx2);
+                font-size: 15px;
+                margin: 0 0 12px;
+            }
+            .big {
+                font-family: Mitr, sans-serif;
+                font-weight: 300;
+                font-size: clamp(21px, 5.9vw, 26px);
+                line-height: 1.62;
+                margin: 0;
+                text-wrap: balance;
+                color: var(--tx);
+            }
+            .big em {
+                font-style: normal;
+                font-weight: 400;
+            }
+            .big small {
+                font-size: 0.72em;
+            }
+            /* หน้าคั่น 1 — ย่อลงเล็กน้อยให้พอดี 2 บรรทัด */
+            #pre1big {
+                font-size: clamp(18px, 5.2vw, 23px);
+            }
+            .rule {
+                width: 44px;
+                height: 1px;
+                background: var(--cdl);
+                margin: 22px 0 0;
+            }
+            .after {
+                color: var(--tx2);
+                font-size: 15px;
+                margin: 16px 0 0;
+            }
+            .gobox {
+                margin-top: 36px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+            #next {
+                font-size: 13.5px;
+                font-weight: 500;
+                padding: 11px 26px;
+            }
+            .dots {
+                display: flex;
+                gap: 7px;
+                justify-content: center;
+                margin-top: 26px;
+            }
+            /* ---------- หน้าคั่นก่อนผลลัพธ์ ---------- */
+            .il {
+                justify-content: center;
+                text-align: center;
+                align-items: center;
+                padding-top: 4px;
+            }
+            .il .after {
+                font-size: 15.5px;
+                line-height: 1.9;
+                color: var(--tx2);
+            }
+            #pre1next,
+            #pre2after {
+                font-size: 13.5px;
+                font-weight: 500;
+                padding: 11px 26px;
+            }
+            #pre2after .ico-in {
+                width: 19px;
+                height: 19px;
+                vertical-align: -3px;
+                margin-left: 2px;
+            }
+            .dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--cdl);
+                transition: 0.25s;
+            }
+            .dot.on {
+                background: var(--ac);
+                transform: scale(1.35);
+            }
+
+            /* ---------- quiz ---------- */
+            #s-quiz {
+                padding-top: 4px;
+            }
+            .prog {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 30px;
+            }
+            .prog .row {
+                display: flex;
+                justify-content: space-between;
+                font-size: 12px;
+                letter-spacing: 0.05em;
+                color: var(--tx2);
+            }
+            .prog .track {
+                height: 4px;
+                border-radius: 99px;
+                background: var(--cdl);
+                overflow: hidden;
+            }
+            .prog .fill {
+                height: 100%;
+                border-radius: 99px;
+                background: linear-gradient(90deg, #f7b6c8, var(--ac));
+                transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .qtext {
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: clamp(19px, 5.2vw, 22px);
+                line-height: 1.6;
+                margin: auto 0 24px;
+                text-wrap: balance;
+                min-height: 2.1em;
+                color: var(--tx);
+            }
+            .opts {
+                display: flex;
+                flex-direction: column;
+                gap: 11px;
+            }
+            .opt {
+                width: 100%;
+                text-align: left;
+                background: var(--cd);
+                border: 1px solid var(--cdl);
+                border-radius: 18px;
+                padding: 15px 19px;
+                font-family: inherit;
+                font-size: 15.5px;
+                line-height: 1.6;
+                color: var(--tx);
+                cursor: pointer;
+                transition: 0.18s;
+                box-shadow: var(--sh);
+            }
+            .opt:hover {
+                border-color: var(--ac);
+            }
+            .opt:active {
+                transform: scale(0.985);
+            }
+            .opt:focus-visible {
+                outline: 2px solid var(--ac);
+                outline-offset: 2px;
+            }
+            .opt.picked {
+                background: linear-gradient(135deg, #d687a0, #c4708c);
+                border-color: transparent;
+                color: #fff;
+                box-shadow: var(--sh-b);
+            }
+            .qfoot {
+                margin-top: auto;
+                padding-top: 26px;
+                padding-bottom: 4px;
+                display: flex;
+                justify-content: center;
+            }
+
+            /* ---------- result ---------- */
+            #s-result {
+                align-items: center;
+                text-align: center;
+                padding-top: 2px;
+            }
+            .bloom {
+                width: min(72vw, 262px);
+                aspect-ratio: 1;
+                margin: 4px 0 2px;
+            }
+            .bloom svg {
+                width: 100%;
+                height: 100%;
+                display: block;
+                animation: rise 0.85s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+            }
+            @keyframes rise {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px) scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .bloom svg {
+                    animation: none;
+                }
+            }
+            .r-th {
+                font-family: Mitr, sans-serif;
+                font-weight: 600;
+                font-size: clamp(29px, 8.4vw, 37px);
+                line-height: 1.4;
+                margin: 0;
+                color: var(--tx);
+            }
+            .r-en {
+                font-size: 11.5px;
+                letter-spacing: 0.24em;
+                text-transform: uppercase;
+                color: var(--tx3);
+                margin: 3px 0 20px;
+            }
+            .poem {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                font-size: 15.5px;
+                line-height: 1.95;
+                margin: 0 0 22px;
+                color: var(--tx);
+            }
+            .r-card {
+                background: var(--cd);
+                border: 1px solid var(--cdl);
+                border-radius: 20px;
+                padding: 18px 20px;
+                color: var(--tx2);
+                font-size: 14.5px;
+                line-height: 1.85;
+                text-align: left;
+                margin-bottom: 22px;
+                width: 100%;
+                box-shadow: var(--sh);
+            }
+            .actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                width: 100%;
+            }
+            .actions .btn {
+                width: 100%;
+                padding: 10px 10px;
+                font-size: 13.5px;
+            }
+            .actions .wide {
+                grid-column: 1 / -1;
+            }
+            /* ---------- คำคติท้ายหน้าผลลัพธ์ ---------- */
+            .quote {
+                width: 100%;
+                margin-top: 30px;
+                padding-top: 26px;
+                border-top: 1px solid var(--cdl);
+                font-family: Mitr, sans-serif;
+                font-weight: 300;
+                font-size: 13.5px;
+                line-height: 2.05;
+                color: var(--tx3);
+                text-align: center;
+            }
+            .quote .qm {
+                display: block;
+                font-size: 14.5px;
+                color: var(--tx2);
+                margin-bottom: 16px;
+                font-style: italic;
+            }
+            .quote .qe {
+                display: block;
+                font-size: 14.5px;
+                color: var(--tx2);
+                margin-top: 16px;
+                font-style: italic;
+            }
+            .credit {
+                margin-top: 26px;
+                padding-top: 20px;
+                border-top: 1px solid var(--cdl);
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 9px;
+                align-items: center;
+            }
+            .credit .by {
+                font-family: Mitr, sans-serif;
+                font-weight: 400;
+                font-size: 12.5px;
+                color: var(--tx3);
+                letter-spacing: 0.14em;
+            }
+            .credit .mail {
+                margin-top: -6px;
+                font-size: 11px;
+                letter-spacing: 0.02em;
+                color: var(--tx3);
+                text-decoration: none;
+                border-bottom: 1px solid transparent;
+                transition:
+                    color 0.16s,
+                    border-color 0.16s;
+            }
+            @media (hover: hover) {
+                .credit .mail:hover {
+                    color: var(--tx2);
+                    border-bottom-color: #efc9d5;
+                }
+            }
+            .credit .note {
+                font-size: 11.5px;
+                line-height: 1.7;
+                color: var(--tx3);
+                max-width: 34ch;
+            }
+
+            /* ---------- gallery ---------- */
+            #s-all {
+                padding-top: 2px;
+            }
+            .g-head {
+                text-align: center;
+                margin-bottom: 22px;
+            }
+            .g-head h2 {
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: 24px;
+                margin: 0 0 5px;
+                color: var(--tx);
+            }
+            .g-head p {
+                margin: 0;
+                color: var(--tx2);
+                font-size: 14.5px;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .gcard {
+                background: var(--cd);
+                border: 1px solid var(--cdl);
+                border-radius: 20px;
+                padding: 13px 11px 16px;
+                text-align: center;
+                cursor: pointer;
+                font-family: inherit;
+                transition: 0.18s;
+                box-shadow: var(--sh);
+            }
+            .gcard:hover {
+                border-color: var(--ac);
+            }
+            .gcard:focus-visible {
+                outline: 2px solid var(--ac);
+                outline-offset: 2px;
+            }
+            .gcard svg {
+                width: 78%;
+                aspect-ratio: 1;
+                display: block;
+                margin: 0 auto 6px;
+            }
+            .gcard .n {
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: 16px;
+                color: var(--tx);
+                line-height: 1.4;
+            }
+            .gcard .e {
+                font-size: 9.5px;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--tx3);
+                margin-top: 2px;
+            }
+            .gcard .d {
+                font-size: 12.5px;
+                line-height: 1.7;
+                color: var(--tx2);
+                margin-top: 8px;
+                display: none;
+                text-align: left;
+            }
+            .gcard.open {
+                grid-column: 1 / -1;
+                cursor: default;
+            }
+            .gcard.open svg {
+                width: 38%;
+            }
+            .gcard.open .d {
+                display: block;
+            }
+            .closing {
+                margin: 32px 0 6px;
+                text-align: center;
+                color: var(--tx2);
+                font-size: 15px;
+                line-height: 1.95;
+            }
+            .closing b {
+                color: var(--tx);
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: 18px;
+                display: block;
+                margin: 12px 0 8px;
+            }
+            .g-foot {
+                display: flex;
+                justify-content: center;
+                padding-top: 22px;
+            }
+
+            /* ---------- ดอกไม้ที่เข้ากัน ---------- */
+            .match {
+                width: 100%;
+                margin: 0 0 22px;
+            }
+            .match .mt {
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 1.5;
+                color: var(--tx);
+                text-align: center;
+                margin: 0 0 11px;
+            }
+            .mrow {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .mc {
+                background: var(--cd);
+                border: 1px solid var(--cdl);
+                border-radius: 18px;
+                padding: 13px 11px 15px;
+                text-align: center;
+                box-shadow: var(--sh);
+            }
+            .mc svg {
+                width: 58px;
+                aspect-ratio: 1;
+                display: block;
+                margin: 0 auto 5px;
+            }
+            .mc .n {
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: 15px;
+                color: var(--tx);
+                line-height: 1.4;
+            }
+            .mc .e {
+                font-size: 8.5px;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--tx3);
+                margin-top: 2px;
+            }
+            .mc .r {
+                font-size: 12px;
+                line-height: 1.7;
+                color: var(--tx2);
+                margin-top: 8px;
+            }
+            .mc.diff {
+                grid-column: 1 / -1;
+                display: flex;
+                align-items: center;
+                gap: 13px;
+                text-align: left;
+                border-style: dashed;
+            }
+            .mc.diff svg {
+                width: 52px;
+                margin: 0;
+                flex: 0 0 auto;
+            }
+            .mc.diff .lbl {
+                font-size: 8.5px;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: var(--tx3);
+                margin-bottom: 3px;
+            }
+            .mc.diff .r {
+                margin-top: 5px;
+            }
+
+            /* ---------- ดอกไม้ทั้ง 10 ท้ายหน้าผลลัพธ์ ---------- */
+            .r-all {
+                width: 100%;
+                margin-top: 30px;
+                padding-top: 26px;
+                border-top: 1px solid var(--cdl);
+            }
+            .r-all .t {
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: 19px;
+                line-height: 1.5;
+                margin: 0 0 4px;
+                color: var(--tx);
+                text-align: center;
+            }
+            .r-all .s {
+                margin: 0 0 16px;
+                font-size: 12.5px;
+                line-height: 1.7;
+                color: var(--tx3);
+                text-align: center;
+            }
+
+            /* ---------- save overlay ---------- */
+            .ov {
+                position: fixed;
+                inset: 0;
+                background: rgba(120, 66, 84, 0.72);
+                backdrop-filter: blur(5px);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 22px;
+                z-index: 50;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+            .ov.on {
+                display: flex;
+            }
+            .ov-in {
+                max-width: 330px;
+                width: 100%;
+                margin: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                align-items: center;
+                text-align: center;
+            }
+            .ov img {
+                width: auto;
+                max-width: 100%;
+                max-height: 62vh; /* fallback สำหรับ iOS ที่เก่ากว่า 15.4 */
+                max-height: 62svh;
+                border-radius: 16px;
+                box-shadow: 0 20px 50px -18px rgba(0, 0, 0, 0.55);
+                display: block;
+                margin: 0 auto;
+                object-fit: contain;
+            }
+            .ov p {
+                margin: 0;
+                color: #fff0f4;
+                font-size: 13.5px;
+                text-align: center;
+                line-height: 1.7;
+            }
+            .ov .btn {
+                width: 100%;
+            }
+            /* ---------- ปุ่ม + หน้าสนับสนุนอาหารแมว ---------- */
+            .cat-btn {
+                grid-column: 1 / -1;
+                justify-self: center;
+                display: inline-flex;
+                align-items: center;
+                white-space: nowrap;
+                gap: 9px;
+                margin: 6px auto 0;
+                padding: 11px 26px;
+                border: 1.5px dashed #f2b9c9;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.72);
+                color: #b9718a;
+                font-family: "IBM Plex Sans Thai", sans-serif;
+                font-size: 14.5px;
+                font-weight: 500;
+                cursor: pointer;
+                transition:
+                    transform 0.16s,
+                    box-shadow 0.16s,
+                    background 0.16s;
+                -webkit-tap-highlight-color: transparent;
+            }
+            .cat-btn svg {
+                width: 19px;
+                height: 19px;
+                flex: none;
+            }
+            .cat-btn:active {
+                transform: scale(0.97);
+            }
+            @media (hover: hover) {
+                .cat-btn:hover {
+                    background: #fff;
+                    border-color: #f49bb4;
+                    box-shadow: 0 8px 20px -12px rgba(196, 112, 140, 0.6);
+                }
+            }
+            .cov {
+                position: fixed;
+                inset: 0;
+                background: rgba(120, 66, 84, 0.72);
+                backdrop-filter: blur(5px);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                z-index: 60;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+            .cov.on {
+                display: flex;
+            }
+            .cov-card {
+                position: relative;
+                width: 100%;
+                max-width: 330px;
+                margin: auto;
+                background: linear-gradient(180deg, #fff7fa 0%, #fffdfa 55%, #fff2f6 100%);
+                border-radius: 26px;
+                padding: 14px 20px 18px;
+                text-align: center;
+                box-shadow: 0 24px 60px -22px rgba(90, 40, 55, 0.6);
+                overflow: hidden;
+            }
+            .cov-card::before,
+            .cov-card::after {
+                content: "";
+                position: absolute;
+                border-radius: 50%;
+                background: #fce4ec;
+                opacity: 0.55;
+                pointer-events: none;
+            }
+            .cov-card::before {
+                width: 96px;
+                height: 78px;
+                top: -26px;
+                left: -30px;
+            }
+            .cov-card::after {
+                width: 120px;
+                height: 96px;
+                bottom: -38px;
+                right: -34px;
+            }
+            .cov-card > * {
+                position: relative;
+            }
+            .cat-art {
+                width: 146px;
+                max-width: 56%;
+                height: auto;
+                display: block;
+                margin: 0 auto 2px;
+            }
+            .cov-t {
+                font-family: Mitr, sans-serif;
+                font-weight: 500;
+                font-size: 18px;
+                color: #a85b72;
+                margin: 0 0 5px;
+            }
+            .cov-s {
+                font-size: 13px;
+                line-height: 1.6;
+                color: #c98fa1;
+                margin: 0 0 12px;
+            }
+            .cov-qr {
+                width: 184px;
+                max-width: 66%;
+                aspect-ratio: 640 / 688;
+                display: block;
+                margin: 0 auto;
+                padding: 9px;
+                background: #fff;
+                border: 2px dashed #f7c2d2;
+                border-radius: 18px;
+                box-shadow: 0 12px 26px -18px rgba(168, 91, 114, 0.75);
+            }
+            .cov-hint {
+                font-size: 11.6px;
+                line-height: 1.55;
+                color: #ddb4c0;
+                margin: 10px 0 13px;
+            }
+            .cov-card .btn {
+                width: 100%;
+                padding: 11px 20px;
+                font-size: 14.5px;
+            }
+            .toast {
+                position: fixed;
+                left: 50%;
+                bottom: 28px;
+                transform: translate(-50%, 20px);
+                background: var(--sel);
+                color: #fff;
+                font-size: 14px;
+                padding: 10px 22px;
+                border-radius: 999px;
+                opacity: 0;
+                pointer-events: none;
+                transition: 0.3s;
+                z-index: 60;
+                box-shadow: var(--sh-b);
+            }
+            .toast.on {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+
+            /* ---------- version badge (แก้เลขเวอร์ชันที่ตัวแปร VERSION ด้านล่างสุดของไฟล์) ---------- */
+            #ver {
+                position: fixed;
+                left: 10px;
+                bottom: 10px;
+                z-index: 9998;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 10.5px;
+                line-height: 1.5;
+                letter-spacing: 0.02em;
+                color: var(--tx2);
+                background: rgba(255, 255, 255, 0.72);
+                border: 1px solid rgba(221, 180, 192, 0.6);
+                border-radius: 999px;
+                padding: 3px 10px;
+                -webkit-backdrop-filter: blur(4px);
+                backdrop-filter: blur(4px);
+                cursor: pointer;
+                user-select: none;
+                -webkit-user-select: none;
+                opacity: 0.5;
+                transition: opacity 0.2s;
+                max-width: calc(100vw - 20px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            #ver:hover,
+            #ver.open {
+                opacity: 1;
+            }
+            #ver.open {
+                white-space: normal;
+                border-radius: 12px;
+                padding: 6px 11px;
+                max-width: min(250px, calc(100vw - 96px));
+            }
+            #ver .vd {
+                display: none;
+                margin-left: 6px;
+                color: var(--tx);
+            }
+            #ver.open .vd {
+                display: inline;
+            }
+            @media print {
+                #ver {
+                    display: none;
+                }
+            }
+        </style>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SL96D47L1G"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+
+            gtag("config", "G-SL96D47L1G");
+        </script>
+    </head>
+    <body>
+        <!-- ▼▼▼ VERSION BADGE — แก้เลขเวอร์ชันทุกครั้งที่แก้ไฟล์ ▼▼▼ -->
+        <div id="ver" role="status" title="แตะเพื่อดูวันที่ไฟล์ถูกอัปเดต"></div>
+        <script>
+            (function () {
+                /* ===== แก้ 2 บรรทัดนี้ทุกครั้งที่อัปโหลดเวอร์ชันใหม่ ===== */
+                var VERSION = "1.6.0";
+                var BUILD = "2026-08-23 12:22";
+                /* ====================================================== */
+                var el = document.getElementById("ver");
+                el.innerHTML =
+                    "v" +
+                    VERSION +
+                    '<span class="vd"> \u00b7 build ' +
+                    BUILD +
+                    " \u00b7 \u0e44\u0e1f\u0e25\u0e4c: " +
+                    document.lastModified +
+                    "</span>";
+                el.addEventListener("click", function () {
+                    el.classList.toggle("open");
+                });
+                console.log("Flower Personality Quiz \u2014 v" + VERSION + " (build " + BUILD + ") \u2014 file: " + document.lastModified);
+            })();
+        </script>
+        <!-- ▲▲▲ VERSION BADGE ▲▲▲ -->
+
+        <div class="petals" aria-hidden="true">
+            <span class="pt" style="--r: 18deg; width: 30px; height: 30px; top: 9%; left: 7%; animation-delay: 0s"></span>
+            <span class="pt c" style="--r: -24deg; width: 18px; height: 18px; top: 22%; right: 11%; animation-delay: -3s"></span>
+            <span class="pt b" style="--r: 40deg; width: 22px; height: 22px; top: 47%; left: 5%; animation-delay: -6s"></span>
+            <span class="pt" style="--r: -12deg; width: 38px; height: 38px; bottom: 16%; right: 6%; animation-delay: -9s"></span>
+            <span class="pt c" style="--r: 30deg; width: 15px; height: 15px; bottom: 34%; left: 12%; animation-delay: -4.5s"></span>
+            <span class="pt b" style="--r: -35deg; width: 24px; height: 24px; top: 66%; right: 14%; animation-delay: -7.5s"></span>
+        </div>
+
+        <div class="shell">
+            <div class="top">
+                <div class="lang" role="group" aria-label="เลือกภาษา">
+                    <button type="button" data-lang="th" aria-pressed="true">ไทย</button>
+                    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+                </div>
+            </div>
+
+            <!-- ===== หน้า 1–5 ===== -->
+            <section class="screen on" id="s-intro">
+                <div id="slides"></div>
+                <div class="gobox">
+                    <button class="btn btn-main" id="next"></button>
+                    <button class="btn-text" id="prev"></button>
+                </div>
+                <div class="dots" id="dots"></div>
+            </section>
+
+            <!-- ===== หน้า 6 · แบบทดสอบ ===== -->
+            <section class="screen" id="s-quiz">
+                <div class="prog">
+                    <div class="row"><span id="pnum"></span><span id="pleft"></span></div>
+                    <div class="track"><div class="fill" id="pfill" style="width: 0%"></div></div>
+                </div>
+                <h2 class="qtext" id="qtext" aria-live="polite"></h2>
+                <div class="opts" id="opts"></div>
+                <div class="qfoot"><button class="btn-text" id="back"></button></div>
+            </section>
+
+            <!-- ===== หน้าคั่น 1 · ก่อนผลลัพธ์ ===== -->
+            <section class="screen il" id="s-pre1">
+                <div class="slide on">
+                    <div class="emo" id="pre1ic"></div>
+                    <p class="big" id="pre1big"></p>
+                    <div class="rule"></div>
+                    <p class="after" id="pre1after"></p>
+                    <div class="gobox"><button class="btn btn-main" id="pre1next"></button></div>
+                </div>
+            </section>
+
+            <!-- ===== หน้าคั่น 2 · ก่อนผลลัพธ์ ===== -->
+            <section class="screen il" id="s-pre2">
+                <div class="slide on">
+                    <div class="emo" id="pre2ic"></div>
+                    <p class="big" id="pre2big"></p>
+                    <div class="gobox"><button type="button" class="btn btn-main" id="pre2after"></button></div>
+                </div>
+            </section>
+
+            <!-- ===== หน้า 7 · ผลลัพธ์ ===== -->
+            <section class="screen" id="s-result">
+                <div class="bloom" id="rimg" role="img"></div>
+                <p class="r-th" id="rth"></p>
+                <p class="r-en" id="ren"></p>
+                <div class="poem" id="rpoem"></div>
+                <div class="r-card" id="rdesc"></div>
+                <div class="match" id="rmatch"></div>
+                <div class="actions">
+                    <button class="btn btn-main" id="save"></button>
+                    <button class="btn btn-ghost" id="share"></button>
+                    <button class="btn-text wide" id="again"></button>
+                    <button type="button" class="cat-btn" id="catbtn">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <ellipse cx="12" cy="15.4" rx="5.5" ry="4.6" fill="#F4A9BE" />
+                            <ellipse cx="5.6" cy="10.6" rx="2.5" ry="3.1" fill="#F7C2D2" />
+                            <ellipse cx="18.4" cy="10.6" rx="2.5" ry="3.1" fill="#F7C2D2" />
+                            <ellipse cx="9.4" cy="5.9" rx="2.3" ry="2.9" fill="#F7C2D2" />
+                            <ellipse cx="14.6" cy="5.9" rx="2.3" ry="2.9" fill="#F7C2D2" />
+                        </svg>
+                        <span id="catbtnT"></span>
+                    </button>
+                </div>
+                <div class="quote" id="rquote"></div>
+
+                <!-- ดอกไม้ทั้ง 10 ดอก (ตาราง 2 คอลัมน์) -->
+                <div class="r-all">
+                    <p class="t" id="rallT"></p>
+                    <p class="s" id="rallS"></p>
+                    <div class="grid" id="rgrid"></div>
+                </div>
+
+                <div class="credit">
+                    <span class="by">By JUPU</span>
+                    <a class="mail">mymirin4enjoy@gmail.com</a>
+                    <span class="note" id="disc"></span>
+                </div>
+            </section>
+
+            <!-- ===== หน้า 8 · ดอกไม้ทั้ง 10 ===== -->
+            <section class="screen" id="s-all">
+                <div class="g-head">
+                    <h2 id="allT"></h2>
+                    <p id="allS"></p>
+                </div>
+                <div class="grid" id="grid"></div>
+                <div class="closing" id="closing"></div>
+                <div class="g-foot"><button class="btn btn-ghost" id="backres"></button></div>
+            </section>
+        </div>
+
+        <div class="ov" id="ov">
+            <div class="ov-in">
+                <img id="ovimg" alt="" />
+                <p id="saveHint"></p>
+                <button class="btn btn-ghost" id="ovclose"></button>
+            </div>
+        </div>
+        <div class="cov" id="catov">
+            <div class="cov-card">
+                <svg class="cat-art" viewBox="0 0 180 128" aria-hidden="true" focusable="false">
+                    <!-- หาง -->
+                    <path
+                        d="M136 108c15 1 22-8 19-19-2-8-11-9-13.5-2.4-1.8 4.8 3 7.6 6 5.2"
+                        fill="none"
+                        stroke="#F4A9BE"
+                        stroke-width="7.5"
+                        stroke-linecap="round"
+                    />
+                    <!-- ตัว -->
+                    <path d="M78 112c0-21 12-34 30-34s30 13 30 34z" fill="#FBD3DF" />
+                    <!-- ขาหน้า -->
+                    <ellipse cx="97" cy="110" rx="8" ry="5.4" fill="#FFE7EF" />
+                    <ellipse cx="119" cy="110" rx="8" ry="5.4" fill="#FFE7EF" />
+                    <!-- หู -->
+                    <path d="M87 58 88.5 36 106 47Z" fill="#F7C2D2" />
+                    <path d="M129 58 127.5 36 110 47Z" fill="#F7C2D2" />
+                    <path d="M92 54.5 93 41.5l9.5 6Z" fill="#F08FAC" />
+                    <path d="M124 54.5 123 41.5l-9.5 6Z" fill="#F08FAC" />
+                    <!-- หัว -->
+                    <ellipse cx="108" cy="66" rx="27" ry="24" fill="#F7C2D2" />
+                    <!-- แก้ม -->
+                    <ellipse cx="92" cy="72" rx="6" ry="4" fill="#F49BB4" opacity=".55" />
+                    <ellipse cx="124" cy="72" rx="6" ry="4" fill="#F49BB4" opacity=".55" />
+                    <!-- ตายิ้ม -->
+                    <path d="M95.5 64c1.8-3 5.4-3 7.2 0" fill="none" stroke="#A85B72" stroke-width="3" stroke-linecap="round" />
+                    <path d="M113.3 64c1.8-3 5.4-3 7.2 0" fill="none" stroke="#A85B72" stroke-width="3" stroke-linecap="round" />
+                    <!-- จมูก + ปาก -->
+                    <path d="M105.4 71.6h5.2L108 74.8Z" fill="#D96C8C" />
+                    <path
+                        d="M108 75.4v2.2M108 77.6c-1.4 2.2-4.2 2-5.2-.2M108 77.6c1.4 2.2 4.2 2 5.2-.2"
+                        fill="none"
+                        stroke="#C9748F"
+                        stroke-width="1.9"
+                        stroke-linecap="round"
+                    />
+                    <!-- หนวด -->
+                    <path
+                        d="M84 66h-9M84.5 71.5l-8.6 2.6M131.5 66h9M131 71.5l8.6 2.6"
+                        fill="none"
+                        stroke="#EFB3C4"
+                        stroke-width="1.9"
+                        stroke-linecap="round"
+                    />
+                    <!-- ชามข้าว -->
+                    <path d="M18 96h56l-5.6 16.6a8 8 0 0 1-7.6 5.4H31.2a8 8 0 0 1-7.6-5.4Z" fill="#FFFFFF" />
+                    <path
+                        d="M18 96h56l-5.6 16.6a8 8 0 0 1-7.6 5.4H31.2a8 8 0 0 1-7.6-5.4Z"
+                        fill="none"
+                        stroke="#F4A9BE"
+                        stroke-width="3"
+                        stroke-linejoin="round"
+                    />
+                    <rect x="14" y="89" width="64" height="9" rx="4.5" fill="#F7C2D2" />
+                    <!-- เม็ดอาหารรูปหัวใจ -->
+                    <path d="M35 87c-3.4-2.6-6-4.2-6-6.6a3.2 3.2 0 0 1 6-1.5 3.2 3.2 0 0 1 6 1.5c0 2.4-2.6 4-6 6.6Z" fill="#F49BB4" />
+                    <path d="M57 87c-3.4-2.6-6-4.2-6-6.6a3.2 3.2 0 0 1 6-1.5 3.2 3.2 0 0 1 6 1.5c0 2.4-2.6 4-6 6.6Z" fill="#F08FAC" />
+                    <circle cx="46" cy="83" r="4.4" fill="#F7C2D2" />
+                    <!-- รอยเท้าเล็ก ๆ -->
+                    <g opacity=".5" fill="#F4A9BE">
+                        <ellipse cx="160" cy="34" rx="4.4" ry="3.7" />
+                        <ellipse cx="155" cy="29.4" rx="1.9" ry="2.4" />
+                        <ellipse cx="165" cy="29.4" rx="1.9" ry="2.4" />
+                        <ellipse cx="158.4" cy="25.4" rx="1.8" ry="2.3" />
+                        <ellipse cx="161.8" cy="25.4" rx="1.8" ry="2.3" />
+                    </g>
+                    <g opacity=".32" fill="#F4A9BE">
+                        <ellipse cx="20" cy="30" rx="3.5" ry="3" />
+                        <ellipse cx="16" cy="26.3" rx="1.5" ry="1.9" />
+                        <ellipse cx="24" cy="26.3" rx="1.5" ry="1.9" />
+                        <ellipse cx="18.8" cy="23.1" rx="1.4" ry="1.8" />
+                        <ellipse cx="21.5" cy="23.1" rx="1.4" ry="1.8" />
+                    </g>
+                </svg>
+                <p class="cov-t" id="catT"></p>
+                <p class="cov-s" id="catS"></p>
+                <img class="cov-qr" id="catqr" alt="" src="qr.png" />
+                <p class="cov-hint" id="catHint"></p>
+                <button type="button" class="btn btn-ghost" id="catclose"></button>
+            </div>
+        </div>
+        <div class="toast" id="toast"></div>
+
+        <script>
+            const DATA = {
+                flowers: [
+                    {
+                        id: "rose",
+                        th: "กุหลาบ",
+                        en: "The Charmer",
+                        enName: "Rose",
+                        poem: [
+                            "งามดั่งกุหลาบพราวอยู่กลางสวน",
+                            "มีเสน่ห์ชวนให้ใครใครหลงใหล",
+                            "รักแล้วรักจริงมอบทั้งหัวใจ",
+                            "แม้มีหนามซ่อนไว้…ก็เพราะรู้คุณค่าตน",
+                        ],
+                        desc: "เสน่ห์แรง รักจริง และมีความมั่นใจในตัวเอง เป็นคนทุ่มเทกับความรัก แต่ก็มีขอบเขตและรู้คุณค่าของตัวเอง",
+                        poemEn: [
+                            "Radiant as a rose in the heart of the garden,",
+                            "a charm that draws every eye near.",
+                            "When you love, you love with all of it —",
+                            "and the thorns are only self-respect.",
+                        ],
+                        descEn: "Magnetic, wholehearted, and sure of yourself. You give everything to the people you love, yet you keep your boundaries and know exactly what you are worth.",
+                    },
+                    {
+                        id: "tulip",
+                        th: "ทิวลิป",
+                        en: "The Sincere",
+                        enName: "Tulip",
+                        poem: [
+                            "ทิวลิปงามเรียบง่ายไม่หวือหวา",
+                            "แต่คุณค่าซ่อนอยู่ในความหมาย",
+                            "รักใครแล้วจริงใจไม่กลับกลาย",
+                            "เป็นคนง่าย ๆ ที่หัวใจมั่นคง",
+                        ],
+                        desc: "จริงใจ เรียบง่าย และมั่นคง ไม่ชอบความสัมพันธ์ที่ซับซ้อน รักใครแล้วพร้อมอยู่เคียงข้างอย่างจริงจัง",
+                        poemEn: [
+                            "A tulip is lovely without trying,",
+                            "its worth folded quietly into meaning.",
+                            "When you love, you do not change your mind —",
+                            "an easy person with a steady heart.",
+                        ],
+                        descEn: "Honest, unfussy, and steady. You have no patience for complicated relationships; once you love someone, you simply stay.",
+                    },
+                    {
+                        id: "daisy",
+                        th: "เดซี่",
+                        en: "The Sunshine",
+                        enName: "Daisy",
+                        poem: [
+                            "เดซี่ดอกน้อยคล้ายรอยยิ้ม",
+                            "เติมความอิ่มเอมให้ใจทั้งหลาย",
+                            "อยู่ใกล้แล้วอบอุ่นและสบาย",
+                            "แม้วันร้ายก็ยังมอบรอยยิ้มให้คน",
+                        ],
+                        desc: "สดใส ร่าเริง และเป็นมิตร ชอบสร้างรอยยิ้มให้คนรอบตัว มองโลกในแง่ดีและมีพลังบวก",
+                        poemEn: [
+                            "A daisy is a small shape of a smile,",
+                            "filling up the hearts that pass it.",
+                            "Near you, people feel warm and easy —",
+                            "even on bad days you hand out smiles.",
+                        ],
+                        descEn: "Bright, cheerful, and easy to be around. You make people smile without effort, and you keep looking for the good in things.",
+                    },
+                    {
+                        id: "sunflower",
+                        th: "ทานตะวัน",
+                        en: "The Bright Soul",
+                        enName: "Sunflower",
+                        poem: [
+                            "ทานตะวันหันหาดวงตะวัน",
+                            "เปรียบเหมือนคนมุ่งมั่นไม่หวั่นไหว",
+                            "เป็นความหวัง เป็นพลังให้ใครใคร",
+                            "แต่บางครั้งก็ลืมหัวใจของตัวเอง",
+                        ],
+                        desc: "อบอุ่น มุ่งมั่น และเป็นกำลังใจให้คนอื่น เป็นคนมีพลัง และชอบดูแลคนรอบข้าง แม้บางครั้งจะเก็บความเหนื่อยไว้คนเดียว",
+                        poemEn: [
+                            "A sunflower always turns toward the sun,",
+                            "the way a determined heart never wavers.",
+                            "You are hope and strength for other people —",
+                            "though sometimes you forget your own heart.",
+                        ],
+                        descEn: "Warm, driven, and the person everyone leans on. You have real energy and you spend it caring for others, even when you carry the tiredness alone.",
+                    },
+                    {
+                        id: "peony",
+                        th: "พีโอนี",
+                        en: "The Romantic",
+                        enName: "Peony",
+                        poem: [
+                            "พีโอนีอ่อนหวานดั่งความฝัน",
+                            "มีหัวใจโรแมนติกเกินใครเห็น",
+                            "รักความงาม รักความหมายในทุกสิ่งเป็น",
+                            "อ่อนโยนแต่ไม่อ่อนแอในหัวใจ",
+                        ],
+                        desc: "โรแมนติก อ่อนหวาน และมีเสน่ห์ ชอบความสวยงามและความสัมพันธ์ที่มีความหมาย ภายนอกอ่อนโยนแต่ภายในเข้มแข็ง",
+                        poemEn: [
+                            "A peony is soft the way a dream is soft,",
+                            "hiding more romance than anyone guesses.",
+                            "You love beauty, and meaning in everything —",
+                            "gentle, but never fragile underneath.",
+                        ],
+                        descEn: "Romantic, tender, and quietly captivating. You are drawn to beauty and to relationships that mean something — soft on the outside, strong at the centre.",
+                    },
+                    {
+                        id: "lily",
+                        th: "ลิลลี่",
+                        en: "The Elegant",
+                        enName: "Lily",
+                        poem: [
+                            "ลิลลี่ขาวบริสุทธิ์และสง่า",
+                            "รู้คุณค่าของตนไม่หวั่นไหว",
+                            "เลือกคนที่คู่ควรเข้ามาในหัวใจ",
+                            "ภายนอกดูเย็นชา…แต่ข้างในแสนอ่อนโยน",
+                        ],
+                        desc: "สง่างาม มีมาตรฐาน และรู้คุณค่าของตัวเอง เลือกคนที่จะเข้ามาในชีวิตอย่างพิถีพิถัน แต่เมื่อไว้ใจแล้วจะจริงใจมาก",
+                        poemEn: [
+                            "A white lily is pure and composed,",
+                            "certain of its worth and unshaken.",
+                            "You choose carefully who enters your heart —",
+                            "cool from a distance, tender up close.",
+                        ],
+                        descEn: "Graceful, with standards and a clear sense of your own worth. You are selective about who gets close, and completely sincere with those who do.",
+                    },
+                    {
+                        id: "babysbreath",
+                        th: "ยิปโซ",
+                        en: "The Gentle Heart",
+                        enName: "Baby's Breath",
+                        poem: [
+                            "ยิปโซดอกเล็กเล็กดูบอบบาง",
+                            "แต่กลับสร้างความงามได้มากมาย",
+                            "ใส่ใจความรู้สึกคนรอบกาย",
+                            "อ่อนโยนจนบางครั้งลืมดูแลตัวเอง",
+                        ],
+                        desc: "อ่อนโยน ใส่ใจ และละเอียดอ่อน รับรู้ความรู้สึกของคนอื่นเก่ง เป็นคนรักและดูแลคนรอบตัว แต่บางครั้งลืมดูแลตัวเอง",
+                        poemEn: [
+                            "Baby's breath looks small and easily broken,",
+                            "yet it is what makes the whole bouquet beautiful.",
+                            "You notice how everyone around you feels —",
+                            "so gentle that you forget yourself.",
+                        ],
+                        descEn: "Gentle, attentive, and finely tuned to other people's feelings. You look after everyone around you — sometimes at your own expense.",
+                    },
+                    {
+                        id: "lavender",
+                        th: "ลาเวนเดอร์",
+                        en: "The Dreamer",
+                        enName: "Lavender",
+                        poem: [
+                            "ลาเวนเดอร์แสนสงบในสายลม",
+                            "ซ่อนอารมณ์ลึกซึ้งไว้ข้างใน",
+                            "ไม่พูดทุกสิ่งที่รู้สึกออกไป",
+                            "ยิ่งค้นหาเท่าไร…ยิ่งพบความงาม",
+                        ],
+                        desc: "สุขุม ลึกซึ้ง และมีโลกส่วนตัว ไม่เปิดใจง่าย ชอบใช้เวลาอยู่กับตัวเอง และมีความคิดที่ละเอียดอ่อน",
+                        poemEn: [
+                            "Lavender is calm in the moving air,",
+                            "keeping its deeper feelings folded inward.",
+                            "You don't say everything that you feel —",
+                            "and the longer someone looks, the more they find.",
+                        ],
+                        descEn: "Calm, deep, and private. You don't open up quickly, you like your own company, and your thinking runs finer than people realise.",
+                    },
+                    {
+                        id: "hibiscus",
+                        th: "ชบา",
+                        en: "The Strong Spirit",
+                        enName: "Hibiscus",
+                        poem: [
+                            "ชบางามผลิบานอย่างกล้าหาญ",
+                            "ไม่สะท้านแม้ลมฝนจะโหมใส่",
+                            "เป็นคนแกร่งและรู้ว่าตนต้องการอะไร",
+                            "รักใครก็สุดหัวใจ แต่ไม่ยอมเสียตัวตน",
+                        ],
+                        desc: "เข้มแข็ง กล้าหาญ และมีจุดยืน ไม่กลัวที่จะเป็นตัวเอง ต่อให้เจออุปสรรคก็พร้อมลุกขึ้นสู้และเดินต่อ",
+                        poemEn: [
+                            "A hibiscus blooms with open courage,",
+                            "unbothered when the storm comes down.",
+                            "You are strong, and you know what you want —",
+                            "you love completely without losing yourself.",
+                        ],
+                        descEn: "Strong, brave, and clear about where you stand. You are not afraid to be yourself, and obstacles only make you get back up and keep going.",
+                    },
+                    {
+                        id: "lotus",
+                        th: "บัว",
+                        en: "The Resilient Soul",
+                        enName: "Lotus",
+                        poem: [
+                            "บัวงามผลิบานเหนือน้ำใส",
+                            "แม้เติบโตจากโคลนตมที่ขื่นขม",
+                            "ผ่านเรื่องราวมากมายไม่ตรอมตรม",
+                            "ยิ่งผ่านฝน…ยิ่งผลิบานอย่างงดงาม",
+                        ],
+                        desc: "สุขุม อดทน และเติบโตจากประสบการณ์ ผ่านเรื่องราวมากมายแต่ไม่ปล่อยให้อดีตหยุดตัวเอง และเลือกผลิบานในแบบของตัวเอง",
+                        poemEn: [
+                            "A lotus opens above the clear water,",
+                            "though it grew out of the bitter mud.",
+                            "You have been through a great deal without hardening —",
+                            "the more rain you pass, the more beautifully you bloom.",
+                        ],
+                        descEn: "Composed, patient, and shaped by what you've lived through. You've been through a lot, but you don't let the past decide who you are.",
+                    },
+                ],
+                questions: [
+                    {
+                        th: "เมื่อคุณอยู่ในกลุ่มคนที่ไม่สนิท คุณมักจะ…",
+                        en: "In a group of people you don't know well, you usually…",
+                        options: [
+                            {
+                                th: "เป็นฝ่ายเริ่มพูดคุยและทำความรู้จัก",
+                                en: "Start the conversation and introduce yourself",
+                                s: { hibiscus: 2, rose: 2, sunflower: 1 },
+                            },
+                            {
+                                th: "ยิ้มและเป็นมิตรกับทุกคน",
+                                en: "Smile and stay friendly with everyone",
+                                s: { daisy: 2, sunflower: 2, tulip: 1 },
+                            },
+                            {
+                                th: "เงียบ ๆ ก่อน แล้วคอยสังเกตคนรอบตัว",
+                                en: "Stay quiet at first and watch the room",
+                                s: { lavender: 2, lotus: 2, lily: 1 },
+                            },
+                            {
+                                th: "คุยกับคนที่รู้สึกถูกชะตาเป็นพิเศษ",
+                                en: "Talk to the one person you instantly click with",
+                                s: { peony: 2, lily: 2, babysbreath: 1 },
+                            },
+                        ],
+                    },
+                    {
+                        th: "ถ้ามีคนทำให้คุณเสียใจ คุณมักจะ…",
+                        en: "When someone hurts you, you usually…",
+                        options: [
+                            { th: "บอกความรู้สึกออกไปตรง ๆ", en: "Say how you feel, directly", s: { hibiscus: 2, tulip: 2, rose: 1 } },
+                            {
+                                th: "ให้อภัย แม้จะยังรู้สึกเสียใจ",
+                                en: "Forgive them, even while it still hurts",
+                                s: { babysbreath: 2, daisy: 2, lotus: 1 },
+                            },
+                            {
+                                th: "เก็บความรู้สึกไว้และคิดอยู่คนเดียว",
+                                en: "Keep it in and turn it over alone",
+                                s: { lavender: 2, sunflower: 2, peony: 1 },
+                            },
+                            {
+                                th: "ถอยออกมาและใช้เวลาเยียวยาตัวเอง",
+                                en: "Step back and take time to heal",
+                                s: { lotus: 2, babysbreath: 2, lily: 1 },
+                            },
+                        ],
+                    },
+                    {
+                        th: "สำหรับคุณ ความรักที่ดีควรเป็นแบบไหน?",
+                        en: "To you, what does good love look like?",
+                        options: [
+                            {
+                                th: "รักกันอย่างชัดเจนและเต็มที่",
+                                en: "Loving openly and completely",
+                                s: { rose: 2, peony: 2, hibiscus: 1 },
+                            },
+                            {
+                                th: "สบายใจ อยู่ด้วยแล้วเป็นตัวเองได้",
+                                en: "Feeling at ease and fully yourself together",
+                                s: { tulip: 2, daisy: 2, hibiscus: 1 },
+                            },
+                            {
+                                th: "เข้าใจกันโดยไม่ต้องพูดทุกอย่าง",
+                                en: "Understanding each other without saying everything",
+                                s: { babysbreath: 2, lavender: 2, lily: 1 },
+                            },
+                            {
+                                th: "ค่อย ๆ เติบโตไปด้วยกันอย่างมั่นคง",
+                                en: "Growing together, steadily",
+                                s: { lotus: 2, tulip: 2, sunflower: 1 },
+                            },
+                        ],
+                    },
+                    {
+                        th: "คนใกล้ตัวมักชมคุณเรื่องอะไร?",
+                        en: "What do people close to you compliment you on?",
+                        options: [
+                            { th: "มีเสน่ห์และความมั่นใจ", en: "Your charm and confidence", s: { rose: 2, hibiscus: 2, peony: 1 } },
+                            {
+                                th: "น่ารัก อบอุ่น และเข้ากับคนง่าย",
+                                en: "Being sweet, warm, and easy to get along with",
+                                s: { daisy: 2, babysbreath: 2, sunflower: 1 },
+                            },
+                            {
+                                th: "สุขุมและมีความคิดเป็นของตัวเอง",
+                                en: "Being level-headed with a mind of your own",
+                                s: { lotus: 2, tulip: 2, lavender: 1 },
+                            },
+                            {
+                                th: "ดูดี มีรสนิยม และวางตัวดี",
+                                en: "Your taste, your poise, how you carry yourself",
+                                s: { lily: 2, peony: 2, rose: 1 },
+                            },
+                        ],
+                    },
+                    {
+                        th: "สิ่งไหนที่คุณรับไม่ได้ที่สุด?",
+                        en: "What can you never accept?",
+                        options: [
+                            { th: "การถูกหักหลัง", en: "Being betrayed", s: { tulip: 2, rose: 2, lotus: 1 } },
+                            {
+                                th: "การทะเลาะหรือทำร้ายความรู้สึกกัน",
+                                en: "Fighting, or hurting each other's feelings",
+                                s: { babysbreath: 2, peony: 2, daisy: 1 },
+                            },
+                            {
+                                th: "การถูกบังคับหรือควบคุม",
+                                en: "Being controlled or told what to do",
+                                s: { hibiscus: 2, sunflower: 2, lavender: 1 },
+                            },
+                            { th: "การไม่ให้เกียรติกัน", en: "Being treated without respect", s: { lily: 2, lotus: 2, lavender: 1 } },
+                        ],
+                    },
+                    {
+                        th: "วันหยุดในฝันของคุณคือ…",
+                        en: "Your dream day off is…",
+                        options: [
+                            { th: "แต่งตัวสวย ๆ แล้วออกไปเที่ยว", en: "Dressing up and going out", s: { rose: 2, peony: 2, hibiscus: 1 } },
+                            {
+                                th: "ไปคาเฟ่หรือเที่ยวกับคนที่ชอบ",
+                                en: "A café, or anywhere with people you love",
+                                s: { daisy: 2, tulip: 2, sunflower: 1 },
+                            },
+                            {
+                                th: "อยู่บ้านคนเดียว ดูหนัง ฟังเพลง หรืออ่านหนังสือ",
+                                en: "Home alone with a film, music, or a book",
+                                s: { lavender: 2, babysbreath: 2, lotus: 1 },
+                            },
+                            {
+                                th: "ไปสถานที่สวย ๆ และใช้เวลาแบบสงบ ๆ",
+                                en: "Somewhere beautiful, taken slowly and quietly",
+                                s: { lily: 2, lotus: 2, peony: 1 },
+                            },
+                        ],
+                    },
+                    {
+                        th: "เมื่อเจอปัญหา คุณมักจะ…",
+                        en: "When a problem shows up, you usually…",
+                        options: [
+                            {
+                                th: "ลุยแก้ทันที ไม่ชอบปล่อยค้าง",
+                                en: "Deal with it right away — you hate loose ends",
+                                s: { hibiscus: 2, sunflower: 2, rose: 1 },
+                            },
+                            { th: "ขอคำปรึกษาจากคนที่ไว้ใจ", en: "Ask someone you trust", s: { tulip: 2, babysbreath: 2, daisy: 1 } },
+                            {
+                                th: "ขอเวลาอยู่คนเดียวเพื่อคิดให้รอบคอบ",
+                                en: "Take time alone to think it through",
+                                s: { lavender: 2, lily: 2, peony: 1 },
+                            },
+                            {
+                                th: "ค่อย ๆ แก้ทีละขั้นจนกว่าจะผ่านไปได้",
+                                en: "Work through it one step at a time",
+                                s: { lotus: 2, sunflower: 2, tulip: 1 },
+                            },
+                        ],
+                    },
+                    {
+                        th: "คุณคิดว่าตัวเองเป็นคนแบบไหนมากที่สุด?",
+                        en: "Which of these is most you?",
+                        options: [
+                            {
+                                th: "มีความมั่นใจและเป็นตัวของตัวเอง",
+                                en: "Confident, and entirely your own person",
+                                s: { hibiscus: 2, rose: 2, lily: 1 },
+                            },
+                            {
+                                th: "สดใสและทำให้คนอื่นมีความสุข",
+                                en: "Bright, and good at making others happy",
+                                s: { daisy: 2, sunflower: 2, babysbreath: 1 },
+                            },
+                            {
+                                th: "ละเอียดอ่อนและคิดมากกว่าที่คนอื่นเห็น",
+                                en: "Sensitive, thinking far more than you show",
+                                s: { babysbreath: 2, lavender: 2, lotus: 1 },
+                            },
+                            {
+                                th: "สุภาพ สง่างาม และมีมาตรฐานของตัวเอง",
+                                en: "Composed, graceful, with standards of your own",
+                                s: { lily: 2, peony: 2, tulip: 1 },
+                            },
+                        ],
+                    },
+                    {
+                        th: "ถ้าต้องเลือกคำหนึ่งคำที่เหมือนคุณที่สุด คุณเลือก…",
+                        en: "If you had to pick one word for yourself…",
+                        options: [
+                            { th: "Passion — ความหลงใหล", en: "Passion", s: { rose: 2, hibiscus: 2, peony: 1 } },
+                            { th: "Joy — ความสดใส", en: "Joy", s: { daisy: 2, sunflower: 2, tulip: 1 } },
+                            { th: "Mystery — ความลึกลับ", en: "Mystery", s: { lavender: 2, lotus: 2, babysbreath: 1 } },
+                            { th: "Grace — ความสง่างาม", en: "Grace", s: { lily: 2, peony: 2, lavender: 1 } },
+                        ],
+                    },
+                    {
+                        th: "คุณอยากให้คนจดจำคุณในแบบไหน?",
+                        en: "How do you want to be remembered?",
+                        options: [
+                            {
+                                th: "เป็นคนที่มีเสน่ห์และน่าจดจำ",
+                                en: "As someone captivating and unforgettable",
+                                s: { rose: 2, peony: 2, hibiscus: 1 },
+                            },
+                            {
+                                th: "เป็นคนที่อยู่ด้วยแล้วมีความสุข",
+                                en: "As someone who made people happy",
+                                s: { daisy: 2, tulip: 2, babysbreath: 1 },
+                            },
+                            {
+                                th: "เป็นคนที่น่าค้นหาและมีเอกลักษณ์",
+                                en: "As someone intriguing and one of a kind",
+                                s: { lavender: 2, hibiscus: 2, lotus: 1 },
+                            },
+                            {
+                                th: "เป็นคนที่ดูสง่างามและน่าเคารพ",
+                                en: "As someone graceful and respected",
+                                s: { lily: 2, sunflower: 2, rose: 1 },
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            const UI = {
+                th: {
+                    slides: [
+                        {
+                            emo: "🌱",
+                            k: "เคยสงสัยไหมว่า…",
+                            big: "ถ้าตัวตนของคุณ เปรียบเสมือนดอกไม้…<br><em>คุณจะเป็นดอกอะไร?</em>",
+                            after: "",
+                            btn: "มาเริ่มกันเลย",
+                        },
+                        {
+                            emo: "🌷",
+                            k: "",
+                            big: "…ดอกไม้แต่ละชนิด<br>มี<em>ความงดงาม</em>และ<em>ความหมาย</em><br><small>ที่แตกต่างกันเช่นเดียวกับคนเรา…</small>",
+                            after: "",
+                        },
+                        { emo: "🌱", k: "", big: "<em>…ดอกไม้ของคุณจะค่อย ๆ ผลิบาน</em><br><small>และคุณจะได้พบว่า…</small>", after: "" },
+                        { emo: "🌷", k: "", big: "…<em>ดอกไม้ดอกไหน?</em><br><small>ที่สะท้อนความเป็นคุณมากที่สุด…</small>", after: "" },
+                        { emo: "🌱", k: "", big: "<small>…มาเริ่มค้นหา</small><br><em>ดอกไม้ในหัวใจ</em>ของคุณกันเลย… ♡", after: "" },
+                    ],
+                    next: "ถัดไป",
+                    start: "เริ่มทำแบบทดสอบ",
+                    prev: "← ย้อนกลับ",
+                    back: "← ย้อนกลับ",
+                    qnum: (n) => `ข้อ ${n} จาก 10`,
+                    qleft: (n) => (n === 0 ? "ข้อสุดท้ายแล้ว" : `เหลืออีก ${n} ข้อ`),
+                    save: "บันทึกเป็นรูป",
+                    share: "ชวนเพื่อนมาเล่น",
+                    seeall: "ดูดอกไม้ทั้ง 10 ดอก",
+                    again: "เล่นใหม่อีกครั้ง",
+                    allT: "ดอกไม้ทั้ง 10 ดอก",
+                    allS: "แตะที่ดอกไม้เพื่อดูนิสัย",
+                    matchT: "ดอกไม้ที่เข้ากับคุณ",
+                    matchNo: "ต่างขั้วแต่เรียนรู้กันได้",
+                    closing:
+                        "ไม่ว่าคุณจะเป็นดอกไม้ชนิดไหน\nทุกดอกล้วนงดงามในแบบของตัวเอง\n<b>จงผลิบานในแบบที่เป็นคุณ</b>\nและอย่าลืมว่าคุณไม่จำเป็นต้องเหมือนใคร เพื่อที่จะงดงาม ♡",
+                    backres: "← กลับไปหน้าผลลัพธ์",
+                    pre1big: "…ไม่ว่าคุณจะเป็นดอกไม้ชนิดไหน<br>ทุกดอกล้วน<em>งดงามในแบบของตัวเอง</em>…",
+                    pre1after: "“จงผลิบานในแบบที่เป็นคุณ”<br>และอย่าลืมว่าคุณไม่จำเป็นต้องเหมือนใคร เพื่อที่จะงดงาม ♡",
+                    pre2big: "…ดอกไม้ที่<em>สะท้อนตัวตนของคุณ</em><br>กำลังจะผลิบาน…",
+                    pre2after: "คุณคือดอกไม้…. {heart}",
+                    reveal: "ดูดอกไม้ของฉัน",
+                    quote: `<span class="qm">"Every flower blooms in its own time."</span>ทุกดอกไม้มีเวลาของการผลิบาน<br>ไม่ว่าคุณจะได้ดอกไม้ชนิดใด<br><br>จงจำไว้ว่าความงดงามของคุณ<br>ไม่ได้ขึ้นอยู่กับการเป็นเหมือนดอกไม้ของใคร<br><br>บางคนผลิบานเร็ว<br>บางคนต้องใช้เวลา<br>บางคนเติบโตท่ามกลางแสงแดด<br>และบางคนงดงามที่สุดหลังผ่านฤดูฝน<br><br>อย่าเร่งให้ตัวเองต้องเป็นใคร<br>อย่าเปรียบเทียบเส้นทางของตัวเองกับคนอื่น<br><br>เพราะดอกไม้แต่ละดอกมีฤดูกาลของมัน<br>จงเติบโตอย่างอ่อนโยน<br>และผลิบานในแบบที่เป็นคุณที่สุด<span class="qe">One day, you'll bloom in your own way.</span>`,
+                    disc: "แบบทดสอบนี้สร้างขึ้นเพื่อความสนุกและการทบทวนตัวเอง ไม่ใช่การประเมินทางจิตวิทยา",
+                    saveHint: "กดค้างที่ภาพแล้วเลือก “บันทึกรูปภาพ”\nหรือถ้าเครื่องดาวน์โหลดให้แล้ว ปิดหน้านี้ได้เลย",
+                    close: "ปิด",
+                    catBtn: "สนับสนุนอาหารแมว",
+                    catT: "สนับสนุนอาหารแมว",
+                    catS: "ขอบคุณที่แวะมาเล่นนะคะ<br>ถ้าชอบแบบทดสอบนี้ และอยากเลี้ยงข้าวน้องแมว<br>สแกน QR ด้านล่างได้เลย ♡",
+                    catHint: "สแกนด้วยแอปธนาคาร<br>หรือกดค้างที่ภาพเพื่อบันทึกไว้ก่อนก็ได้",
+                    copied: "คัดลอกลิงก์แล้ว",
+                    saving: "กำลังสร้างรูป…",
+                    shareText: "มาดูกันว่าคุณคือดอกไม้อะไร 🌷",
+                    cardFoot: "คุณคือดอกไม้อะไร?",
+                    cardMatch: "ดอกไม้ที่เข้ากับคุณ",
+                    tagOk: "เข้ากัน",
+                    tagNo: "ต่างขั้ว",
+                },
+                en: {
+                    slides: [
+                        {
+                            emo: "🌱",
+                            k: "Have you ever wondered…",
+                            big: "If who you are were a flower…<br><em>which flower would you be?</em>",
+                            after: "",
+                            btn: "Let's begin",
+                        },
+                        {
+                            emo: "🌷",
+                            k: "",
+                            big: "…every flower carries<br>its own <em>beauty</em> and <em>meaning</em><br>— just as every person does…",
+                            after: "",
+                        },
+                        { emo: "🌱", k: "", big: "…<em>your flower</em> will slowly bloom,<br>and you will find…", after: "" },
+                        { emo: "🌷", k: "", big: "…<em>which flower</em><br>reflects you the most…", after: "" },
+                        { emo: "🌱", k: "", big: "…are you ready?<br>Let's find <em>the flower in your heart</em>… ♡", after: "" },
+                    ],
+                    next: "Next",
+                    start: "Start the quiz",
+                    prev: "← Back",
+                    back: "← Back",
+                    qnum: (n) => `Question ${n} of 10`,
+                    qleft: (n) => (n === 0 ? "Last one" : `${n} to go`),
+                    save: "Save as image",
+                    share: "Share with friends",
+                    seeall: "See all 10 flowers",
+                    again: "Take it again",
+                    allT: "All ten flowers",
+                    allS: "Tap a flower to read it",
+                    matchT: "Flowers that suit you",
+                    matchNo: "Opposite energy",
+                    closing:
+                        "Whichever flower you are,\nevery one of them is beautiful in its own way.\n<b>Bloom in the way that is yours</b>\nYou never had to be like anyone else to be lovely ♡",
+                    backres: "← Back to my result",
+                    pre1big: "…whichever flower you turn out to be,<br>every one of them is <em>beautiful in its own way</em>…",
+                    pre1after: "“Bloom in the way that is yours.”<br>And remember — you never had to be like anyone else to be lovely ♡",
+                    pre2big: "…the flower that <em>reflects who you are</em><br>is about to bloom…",
+                    pre2after: "You are the flower…. {heart}",
+                    reveal: "See my flower",
+                    quote: `<span class="qm">"Every flower blooms in its own time."</span>Every flower has a season of its own,<br>whichever one you were given.<br><br>Remember that your beauty<br>never depended on looking like someone else's bloom.<br><br>Some open early,<br>some need more time.<br>Some grow in full sunlight,<br>and some are loveliest after the rain has passed.<br><br>Don't rush yourself into being anyone.<br>Don't measure your path against another's.<br><br>Because every flower has its own season.<br>Grow gently,<br>and bloom in the way that is most you.<span class="qe">One day, you'll bloom in your own way.</span>`,
+                    disc: "This quiz is made for fun and gentle self-reflection. It is not a psychological assessment.",
+                    saveHint:
+                        "Press and hold the image, then choose “Save image”.\nIf your device already downloaded it, you can close this.",
+                    close: "Close",
+                    catBtn: "Buy the cats a meal",
+                    catT: "Support cat food",
+                    catS: "Thank you for stopping by.<br>If this made you smile, you are welcome<br>to treat the cats to a meal. ♡",
+                    catHint: "Scan with any Thai banking app,<br>or long-press the image to save it for later.",
+                    copied: "Link copied",
+                    saving: "Making your image…",
+                    shareText: "Find out which flower you are 🌷",
+                    cardFoot: "Which flower are you?",
+                    cardMatch: "Flowers that suit you",
+                    tagOk: "MATCH",
+                    tagNo: "OPPOSITE",
+                },
+            };
+
+            /* ---------- ดอกไม้วาดใหม่ (SVG) ---------- */
+            const R = (n, fn) => Array.from({ length: n }, (_, i) => fn(i)).join("");
+            const face = (cx, cy, s = 1, dark = "#8C4A61", cheek = "#F19FB8", cop = 0.75) => `
+  <circle cx="${cx - 7.5 * s}" cy="${cy + 2.5 * s}" r="${3 * s}" fill="${cheek}" opacity="${cop}"/>
+  <circle cx="${cx + 7.5 * s}" cy="${cy + 2.5 * s}" r="${3 * s}" fill="${cheek}" opacity="${cop}"/>
+  <circle cx="${cx - 4 * s}" cy="${cy}" r="${1.9 * s}" fill="${dark}"/>
+  <circle cx="${cx + 4 * s}" cy="${cy}" r="${1.9 * s}" fill="${dark}"/>
+  <path d="M${cx - 2.2 * s} ${cy + 4 * s}c${1.2 * s} ${1.5 * s} ${3.2 * s} ${1.5 * s} ${4.4 * s} 0" stroke="${dark}"
+    stroke-width="${1.8 * s}" fill="none" stroke-linecap="round"/>`;
+            const stem = (h = 60, l = true) => `
+  <path d="M50 97V${h}" stroke="#8FC08A" stroke-width="5" stroke-linecap="round" fill="none"/>
+  ${
+      l
+          ? `<path d="M49 88c-10 1-16-5-18-13 11-2 17 4 18 13Z" fill="#A8D3A0"/>
+  <path d="M51 80c1-9 8-13 17-12-1 10-8 13-17 12Z" fill="#8FC08A"/>`
+          : ""
+  }`;
+            const ring = (n, r, rx, ry, fill, cx = 50, cy = 42, off = 0, op = 1) =>
+                R(n, (i) => {
+                    const a = (360 / n) * i + off;
+                    return `<g transform="rotate(${a} ${cx} ${cy})"><ellipse cx="${cx}" cy="${cy - r}" rx="${rx}" ry="${ry}" fill="${fill}" opacity="${op}"/></g>`;
+                });
+
+            const FLOWER = {
+                rose: (f) => `${stem()}
+    ${ring(6, 11, 12, 12, "#F2919A")}
+    <circle cx="50" cy="42" r="15" fill="#E56674"/>
+    <path d="M50 42a7 7 0 1 1-6 3.4" stroke="#fff" stroke-width="2.4" fill="none" opacity=".45" stroke-linecap="round"/>
+    <path d="M50 30a12 12 0 1 1-11 6.6" stroke="#fff" stroke-width="2.4" fill="none" opacity=".3" stroke-linecap="round"/>
+    ${f ? face(50, 42, 1, "#7E2634", "#FFD2D6", 0.5) : ""}`,
+                tulip: (f) => `${stem(58)}
+    <path d="M31 30c0-4 4.5-6 8-3l5.5 8L46 21c.5-4 6-4 6.5 0L54 35l5.5-8c3.5-3 8-1 8 3v13c0 10-8 17-18.5 17S31 53 31 43Z" fill="#E4589B"/>
+    <path d="M42 24c1 6 1.4 13 1.4 20M58 24c-1 6-1.4 13-1.4 20" stroke="#fff" stroke-width="2" opacity=".4" fill="none" stroke-linecap="round"/>
+    ${f ? face(49, 42) : ""}`,
+                daisy: (f) => `${stem(56)}
+    ${R(9, (i) => {
+        const a = 40 * i;
+        return `<g transform="rotate(${a} 50 42)"><ellipse cx="50" cy="25" rx="6.5" ry="13" fill="#fff" stroke="#EFD5E0" stroke-width="1.4"/></g>`;
+    })}
+    <circle cx="50" cy="42" r="10.5" fill="#FBD46A"/>
+    <circle cx="50" cy="42" r="10.5" fill="none" stroke="#EFBE4E" stroke-width="1.2" opacity=".6"/>
+    ${f ? face(50, 42, 0.85, "#A9743F") : ""}`,
+                sunflower: (f) => `${stem(56)}
+    ${ring(12, 18, 5.5, 13, "#F3B93C", 50, 42, 15)}
+    ${ring(12, 17, 5.5, 12, "#F9CF63")}
+    <circle cx="50" cy="42" r="12" fill="#B4763F"/>
+    <circle cx="50" cy="42" r="12" fill="none" stroke="#9A6234" stroke-width="1.5" opacity=".5"/>
+    ${f ? face(50, 42, 0.9, "#6E4523") : ""}`,
+            };
+
+            // ---- อีก 6 ดอก ----
+            const tear = (cx, cy, w, h) =>
+                `M${cx} ${cy} C${cx - w} ${cy - h * 0.55} ${cx - w * 0.7} ${cy - h} ${cx} ${cy - h - 4} C${cx + w * 0.7} ${cy - h} ${cx + w} ${cy - h * 0.55} ${cx} ${cy}Z`;
+            const petalsPath = (n, d, fill, stroke, cx = 50, cy = 42, off = 0) =>
+                R(
+                    n,
+                    (i) =>
+                        `<g transform="rotate(${(360 / n) * i + off} ${cx} ${cy})"><path d="${d}" fill="${fill}"${stroke ? ` stroke="${stroke}" stroke-width="1.4"` : ""}/></g>`,
+                );
+
+            FLOWER.peony = (f) => `${stem(58)}
+  ${ring(10, 15, 8, 8, "#F5BEE0")}
+  ${ring(8, 8.5, 6.5, 6.5, "#EFA6D3")}
+  <circle cx="50" cy="42" r="7.5" fill="#E894C9"/>
+  ${f ? face(50, 42, 0.8, "#7A2159", "#FFAEDA", 0.6) : ""}`;
+
+            FLOWER.lily = (f) => `${stem(58)}
+  ${petalsPath(6, tear(50, 42, 11, 24), "#FBDCC0", "#F0BC92")}
+  <circle cx="50" cy="42" r="8" fill="#F9D3A6"/>
+  <path d="M50 42l-6-8M50 42l6-8M50 42l0-10" stroke="#E5A468" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <circle cx="44" cy="33" r="2" fill="#DA8C4A"/><circle cx="56" cy="33" r="2" fill="#DA8C4A"/><circle cx="50" cy="31" r="2" fill="#DA8C4A"/>
+  ${f ? face(50, 44, 0.8, "#8A5230", "#F7B48A", 0.65) : ""}`;
+
+            FLOWER.babysbreath = (f) => {
+                const pts = [
+                    [26, 46, 5.5],
+                    [38, 36, 5],
+                    [50, 30, 5.5],
+                    [62, 36, 5],
+                    [74, 46, 5.5],
+                    [32, 58, 4.6],
+                    [44, 50, 4.6],
+                    [56, 50, 4.6],
+                    [68, 58, 4.6],
+                    [50, 44, 8],
+                ];
+                return `<path d="M50 97V78" stroke="#8FC08A" stroke-width="4" stroke-linecap="round" fill="none"/>
+  ${pts.map(([x, y]) => `<path d="M50 79C50 68 ${x} ${y + 13} ${x} ${y}" stroke="#A8D3A0" stroke-width="1.8" fill="none" stroke-linecap="round"/>`).join("")}
+  ${pts.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#EDF5FC" stroke="#B7D5EC" stroke-width="1.3"/>`).join("")}
+  <circle cx="50" cy="44" r="2.6" fill="#A8CFEA"/>
+  ${f ? face(50, 44, 0.62, "#4E7B9E", "#AFD3EC", 0.7) : ""}`;
+            };
+
+            FLOWER.lavender = (f) => {
+                const stalk = (x, y0, rot) => `<g transform="rotate(${rot} 50 92)">
+    <path d="M${x} 92V${y0}" stroke="#8FC08A" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+    ${R(6, (i) => `<ellipse cx="${x + (i % 2 ? 4.5 : -4.5)}" cy="${y0 + 2 + i * 7}" rx="4.6" ry="5.6" fill="${i % 2 ? "#B69BDD" : "#C7B2E8"}"/>`)}
+    <ellipse cx="${x}" cy="${y0 - 3}" rx="4.2" ry="5.4" fill="#A98BD6"/></g>`;
+                return `${stalk(50, 20, 0)}${stalk(50, 30, -19)}${stalk(50, 30, 19)}
+  <path d="M46 88c-9 0-14-4-16-11 10-2 15 3 16 11Z" fill="#A8D3A0"/>
+  ${f ? face(50, 44, 0.72) : ""}`;
+            };
+
+            FLOWER.hibiscus = (f) => `${stem(58)}
+  ${ring(5, 14, 13, 15, "#F5854C")}
+  ${ring(5, 13, 9, 10, "#FBB791", 50, 42, 36, 0.55)}
+  <circle cx="50" cy="42" r="9" fill="#FCE2A6"/>
+  <path d="M50 42c6 6 10 9 14 10" stroke="#FCE2A6" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <circle cx="65" cy="53" r="2.6" fill="#E9A63F"/>
+  ${f ? face(50, 42, 0.8, "#8A3316", "#FFC0A0", 0.6) : ""}`;
+
+            FLOWER.lotus = (f) => `
+  <ellipse cx="50" cy="84" rx="38" ry="8" fill="#A8D3A0"/>
+  <ellipse cx="50" cy="82" rx="26" ry="5" fill="#8FC08A" opacity=".55"/>
+  ${petalsPath(6, tear(50, 60, 13, 20), "#FCD8E4", "", 50, 60, 30)}
+  ${petalsPath(6, tear(50, 58, 11, 26), "#F9BBD0", "", 50, 58, 0)}
+  ${petalsPath(4, tear(50, 54, 8, 18), "#F5A3C0", "", 50, 54, 45)}
+  <circle cx="50" cy="53" r="8" fill="#FBE0A8"/>
+  ${R(6, (i) => `<circle cx="${(50 + Math.cos(i * 1.047) * 4.2).toFixed(1)}" cy="${(53 + Math.sin(i * 1.047) * 4.2).toFixed(1)}" r="1.4" fill="#E8B96A"/>`)}
+  ${f ? face(50, 53, 0.72) : ""}`;
+            const flowerSVG = (id) =>
+                `<svg class="fl" viewBox="0 0 100 100" aria-hidden="true" focusable="false">${FLOWER[id](true)}</svg>`;
+            const flowerURL = (id, sz) =>
+                "data:image/svg+xml;charset=utf-8," +
+                encodeURIComponent(
+                    `<svg xmlns="http://www.w3.org/2000/svg" width="${sz || 650}" height="${sz || 650}" viewBox="0 0 100 100">${FLOWER[id](true)}</svg>`,
+                );
+
+            const TIEBREAK = ["hibiscus", "daisy", "lavender", "tulip", "lily", "lotus", "sunflower", "babysbreath", "peony", "rose"];
+            const INLINE = window.__INLINE_IMAGES || null;
+            const srcOf = (id) => (INLINE ? INLINE[id] : "assets/" + id + ".webp");
+
+            /* ---------- ไอคอนดอกไม้ (SVG · แทนอีโมจิ) ---------- */
+            const ICON = {
+                "❤": `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+    <path d="M32 54.5C20 46.2 10.5 39 10.5 28.6 10.5 21.2 16.2 15.5 23.3 15.5c4 0 7.5 1.9 8.7 4.6 1.2-2.7 4.7-4.6 8.7-4.6 7.1 0 12.8 5.7 12.8 13.1C53.5 39 44 46.2 32 54.5Z" fill="#FFF0F4"/>
+    <path d="M23.5 22.5c-3.2 0-5.8 2.5-6.1 5.7" stroke="#F7C2D2" stroke-width="3" stroke-linecap="round" fill="none" opacity=".85"/>
+  </svg>`,
+                "🌱": `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+    <path d="M32 58V34" stroke="#8FC08A" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M30 40c-9 1-15-4-18-12 10-2 17 2 18 12Z" fill="#A8D3A0"/>
+    <path d="M34 35c0-10 6-15 16-15 0 10-6 15-16 15Z" fill="#8FC08A"/>
+    <circle cx="32" cy="48" r="9.5" fill="#F7C2D2"/>
+    <circle cx="26.6" cy="48.6" r="2.6" fill="#F19FB8" opacity=".8"/>
+    <circle cx="37.4" cy="48.6" r="2.6" fill="#F19FB8" opacity=".8"/>
+    <circle cx="29" cy="46.6" r="1.6" fill="#8C4A61"/>
+    <circle cx="35" cy="46.6" r="1.6" fill="#8C4A61"/>
+    <path d="M30.4 50.4c1 1.2 2.2 1.2 3.2 0" stroke="#8C4A61" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </svg>`,
+                "🌷": `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+    <path d="M32 46v12" stroke="#8FC08A" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M31 56c-6-1-10-5-11-11 7-1 11 4 11 11Z" fill="#A8D3A0"/>
+    <path d="M20 24c0-3 3-4.5 5.5-2.5L29 29l1.5-10c.3-2.6 3.7-2.6 4 0L36 29l3.5-7.5C42 19.5 45 21 45 24v10c0 7-5.8 12-13 12s-13-5-13-12Z" fill="#EFA3BB"/>
+    <circle cx="25" cy="35" r="3.4" fill="#F19FB8" opacity=".85"/>
+    <circle cx="39" cy="35" r="3.4" fill="#F19FB8" opacity=".85"/>
+    <circle cx="28" cy="32" r="1.7" fill="#8C4A61"/>
+    <circle cx="36" cy="32" r="1.7" fill="#8C4A61"/>
+    <path d="M30.2 36c1.1 1.3 2.5 1.3 3.6 0" stroke="#8C4A61" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+  </svg>`,
+            };
+            const iconOf = (e) => ICON[e] || e;
+            const fmt = (t) =>
+                t
+                    .replace(/\{sprout\}/g, `<span class="ico-in">${ICON["🌱"]}</span>`)
+                    .replace(/\{tulip\}/g, `<span class="ico-in">${ICON["🌷"]}</span>`)
+                    .replace(/\{heart\}/g, `<span class="ico-in">${ICON["❤"]}</span>`);
+
+            let lang = "th",
+                slide = 0,
+                qi = 0,
+                answers = [],
+                result = null;
+            const $ = (s) => document.querySelector(s);
+            const F = (id) => DATA.flowers.find((f) => f.id === id);
+            const T = () => UI[lang];
+
+            /* ---------- intro pages 1–5 ---------- */
+            function renderSlides() {
+                const t = T();
+                $("#slides").innerHTML = t.slides
+                    .map(
+                        (s, i) => `
+    <div class="slide${i === slide ? " on" : ""}">
+      <div class="emo">${iconOf(s.emo)}</div>
+      ${s.k ? `<p class="k">${s.k}</p>` : ""}
+      <p class="big">${s.big}</p>
+      ${s.after ? `<div class="rule"></div><p class="after">${s.after}</p>` : ""}
+    </div>`,
+                    )
+                    .join("");
+                $("#next").textContent = t.slides[slide].btn || (slide === 4 ? t.start : t.next);
+                $("#prev").textContent = t.prev;
+                $("#prev").style.visibility = slide === 0 ? "hidden" : "visible";
+                $("#dots").innerHTML = t.slides.map((_, i) => `<span class="dot${i === slide ? " on" : ""}"></span>`).join("");
+            }
+            function show(id) {
+                document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("on", s.id === id));
+                window.scrollTo(0, 0);
+            }
+
+            /* ---------- language ---------- */
+            function applyLang() {
+                const t = T();
+                document.documentElement.lang = lang;
+                renderSlides();
+                $("#back").textContent = t.back;
+                $("#save").textContent = t.save;
+                $("#share").textContent = t.share;
+                $("#again").textContent = t.again;
+                $("#backres").textContent = t.backres;
+                $("#allT").textContent = t.allT;
+                $("#allS").textContent = t.allS;
+                $("#disc").textContent = t.disc;
+                $("#ovclose").textContent = t.close;
+                $("#catbtnT").textContent = t.catBtn;
+                $("#catT").textContent = t.catT;
+                $("#catS").innerHTML = t.catS;
+                $("#catHint").innerHTML = t.catHint;
+                $("#catqr").alt = t.catT;
+                $("#catclose").textContent = t.close;
+                $("#pre1big").innerHTML = t.pre1big;
+                $("#pre1after").innerHTML = t.pre1after;
+                $("#pre2big").innerHTML = t.pre2big;
+                $("#pre2after").innerHTML = fmt(t.pre2after);
+                $("#pre1ic").innerHTML = iconOf("🌱");
+                $("#pre2ic").innerHTML = iconOf("🌷");
+                $("#pre1next").textContent = t.next;
+                $("#rquote").innerHTML = t.quote;
+                $("#saveHint").innerHTML = t.saveHint.replace(/\n/g, "<br>");
+                $("#closing").innerHTML = t.closing.replace(/\n/g, "<br>");
+                document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+                if ($("#s-quiz").classList.contains("on")) renderQ();
+                if (result) renderResult(result);
+                if ($("#s-all").classList.contains("on")) renderGrid();
+            }
+
+            /* ---------- quiz ---------- */
+            function renderQ() {
+                const t = T(),
+                    q = DATA.questions[qi];
+                $("#pnum").textContent = t.qnum(qi + 1);
+                $("#pleft").textContent = t.qleft(9 - qi);
+                $("#pfill").style.width = (qi / 10) * 100 + "%";
+                $("#qtext").textContent = lang === "th" ? q.th : q.en;
+                const w = $("#opts");
+                w.innerHTML = "";
+                q.options.forEach((o, i) => {
+                    const b = document.createElement("button");
+                    b.type = "button";
+                    b.className = "opt" + (answers[qi] === i ? " picked" : "");
+                    b.textContent = lang === "th" ? o.th : o.en;
+                    b.addEventListener("click", () => pick(i, b));
+                    w.appendChild(b);
+                });
+                $("#back").style.visibility = qi === 0 ? "hidden" : "visible";
+            }
+            function pick(i, btn) {
+                answers[qi] = i;
+                document.querySelectorAll(".opt").forEach((o) => o.classList.remove("picked"));
+                btn.classList.add("picked");
+                setTimeout(() => {
+                    if (qi < 9) {
+                        qi++;
+                        renderQ();
+                        window.scrollTo(0, 0);
+                    } else {
+                        result = score();
+
+                        gtag("event", "game_finished", {
+                            flower_result: result,
+                        });
+
+                        renderResult(result);
+                        show("s-pre1");
+                    }
+                }, 240);
+            }
+
+            /* ---------- scoring ---------- */
+            function score() {
+                const tot = {},
+                    late = {},
+                    last = {};
+                DATA.flowers.forEach((f) => {
+                    tot[f.id] = late[f.id] = last[f.id] = 0;
+                });
+                answers.forEach((oi, i) => {
+                    const s = DATA.questions[i].options[oi].s;
+                    for (const k in s) {
+                        tot[k] += s[k];
+                        if (i >= 7) late[k] += s[k];
+                        if (i === 9) last[k] += s[k];
+                    }
+                });
+                return DATA.flowers
+                    .map((f) => f.id)
+                    .sort(
+                        (a, b) => tot[b] - tot[a] || late[b] - late[a] || last[b] - last[a] || TIEBREAK.indexOf(a) - TIEBREAK.indexOf(b),
+                    )[0];
+            }
+
+            /* ---------- ดอกไม้ที่เข้ากัน ---------- */
+            const MATCH = {
+                rose: {
+                    ok: [
+                        [
+                            "tulip",
+                            "ความจริงใจของทิวลิปทำให้คุณวางใจได้เต็มที่",
+                            "Tulip's honesty is the thing that finally lets you relax.",
+                        ],
+                        [
+                            "peony",
+                            "รักความหมายเหมือนกัน อยู่ด้วยแล้วโรแมนติกสุด ๆ",
+                            "You both want love to mean something — together it's pure romance.",
+                        ],
+                    ],
+                    no: [
+                        "lavender",
+                        "คุณเปิดเผย เขาเก็บงำ ต้องใจเย็นและให้เวลากันมากขึ้น",
+                        "You say it out loud, they keep it inside — this one needs patience.",
+                    ],
+                },
+                tulip: {
+                    ok: [
+                        [
+                            "rose",
+                            "กุหลาบกล้าพูดในสิ่งที่คุณรู้สึกแต่ไม่ค่อยบอก",
+                            "Rose says out loud the things you feel but rarely voice.",
+                        ],
+                        [
+                            "lotus",
+                            "มั่นคงเหมือนกัน ความสัมพันธ์จะค่อย ๆ โตอย่างไม่ต้องลุ้น",
+                            "Both steady — this grows quietly and never keeps you guessing.",
+                        ],
+                    ],
+                    no: [
+                        "peony",
+                        "คุณเรียบง่าย ส่วนเขาต้องการความหวานและความพิเศษมากกว่า",
+                        "You keep it simple; they want sweetness and a little ceremony.",
+                    ],
+                },
+                daisy: {
+                    ok: [
+                        [
+                            "sunflower",
+                            "พลังบวกคูณสอง เจอกันทีไรก็สว่างทั้งวัน",
+                            "Double the brightness — every meeting lights up the whole day.",
+                        ],
+                        [
+                            "lavender",
+                            "คุณช่วยดึงเขาออกมาจากโลกส่วนตัวได้อย่างนุ่มนวล",
+                            "You draw them gently out of their own quiet world.",
+                        ],
+                    ],
+                    no: [
+                        "lily",
+                        "คุณเข้าหาทุกคน ส่วนเขาเลือกคนที่จะสนิทอย่างช้า ๆ",
+                        "You warm to everyone; they let people in slowly and carefully.",
+                    ],
+                },
+                sunflower: {
+                    ok: [
+                        [
+                            "daisy",
+                            "ร่าเริงเข้ากัน คอยเติมพลังให้กันได้ไม่มีหมด",
+                            "Two cheerful hearts, refilling each other's energy endlessly.",
+                        ],
+                        [
+                            "babysbreath",
+                            "คุณดูแลคนอื่น ส่วนเขาคือคนที่คอยดูแลคุณกลับ",
+                            "You take care of everyone — they're the one who takes care of you.",
+                        ],
+                    ],
+                    no: [
+                        "lavender",
+                        "คุณอยากอยู่ด้วยกันตลอด แต่เขาต้องการพื้นที่เงียบ ๆ",
+                        "You want to be around; they need silence and space.",
+                    ],
+                },
+                peony: {
+                    ok: [
+                        ["lily", "รสนิยมและความละเมียดตรงกันแทบทุกอย่าง", "Your taste and your sense of detail line up almost perfectly."],
+                        [
+                            "rose",
+                            "รักแรงพอกัน อยู่ด้วยแล้วรู้สึกถูกเลือกเสมอ",
+                            "You love just as fiercely — with them you always feel chosen.",
+                        ],
+                    ],
+                    no: [
+                        "hibiscus",
+                        "คุณอยากได้ความอ่อนหวาน แต่เขาตรงและห้าวกว่าที่คุณคุ้น",
+                        "You want tenderness; they're blunter and bolder than you're used to.",
+                    ],
+                },
+                lily: {
+                    ok: [
+                        [
+                            "lotus",
+                            "สุขุมพอกัน เข้าใจกันได้โดยไม่ต้องอธิบายอะไรมาก",
+                            "Equally composed — you understand each other without explaining.",
+                        ],
+                        [
+                            "peony",
+                            "ชอบความงามเหมือนกัน อยู่ด้วยแล้วรู้สึกมีคุณค่า",
+                            "You both love beauty; together you feel genuinely valued.",
+                        ],
+                    ],
+                    no: [
+                        "daisy",
+                        "เขาสนิทกับคนง่ายมาก จนบางทีคุณอาจตามจังหวะไม่ทัน",
+                        "They get close to people fast — sometimes faster than you can follow.",
+                    ],
+                },
+                babysbreath: {
+                    ok: [
+                        ["sunflower", "เขาคอยเป็นเกราะให้ ส่วนคุณเติมความอ่อนโยนให้เขา", "They shield you; you soften them."],
+                        ["lotus", "ใจเย็นและเข้าใจความรู้สึกของกันได้ลึกมาก", "Both patient — you read each other's feelings deeply."],
+                    ],
+                    no: [
+                        "rose",
+                        "เขาชัดเจนและมั่นใจมาก จนบางครั้งคุณอาจรู้สึกเกรงใจ",
+                        "They're bold and certain; you may find yourself shrinking a little.",
+                    ],
+                },
+                lavender: {
+                    ok: [
+                        ["lotus", "อยู่เงียบ ๆ ด้วยกันได้โดยไม่รู้สึกอึดอัดเลย", "You can be silent together and never feel awkward."],
+                        ["daisy", "ความสดใสของเดซี่ทำให้โลกของคุณเบาขึ้น", "Daisy's brightness makes your world lighter."],
+                    ],
+                    no: [
+                        "sunflower",
+                        "เขาสว่างและเปิดเผยมาก จนบางทีคุณอยากถอยมาพัก",
+                        "They're bright and open — sometimes you just need to step back.",
+                    ],
+                },
+                hibiscus: {
+                    ok: [
+                        [
+                            "lotus",
+                            "ผ่านเรื่องหนักมาเหมือนกัน จึงเคารพความแข็งแกร่งของกัน",
+                            "You've both been through it — and you respect each other's strength.",
+                        ],
+                        ["tulip", "ตรงไปตรงมาพอกัน ไม่ต้องเดาใจกันให้เหนื่อย", "Equally direct — no exhausting guesswork."],
+                    ],
+                    no: [
+                        "peony",
+                        "เขาต้องการความหวานและคำพูดสวย ๆ มากกว่าที่คุณถนัด",
+                        "They want sweetness and pretty words more than you tend to give.",
+                    ],
+                },
+                lotus: {
+                    ok: [
+                        ["lavender", "อยู่เงียบ ๆ ด้วยกันแล้วสบายใจที่สุด", "Quiet company is the most comfortable thing there is."],
+                        [
+                            "lily",
+                            "นิ่งและมีจุดยืนเหมือนกัน เข้าใจกันแบบผู้ใหญ่",
+                            "Both calm and grounded — you understand each other like adults.",
+                        ],
+                    ],
+                    no: ["daisy", "เขาไวและสดใส ส่วนคุณต้องการเวลาค่อย ๆ เปิดใจ", "They move fast and bright; you open up slowly."],
+                },
+            };
+            function renderMatch(id) {
+                const th = lang === "th",
+                    m = MATCH[id],
+                    t = T(),
+                    box = $("#rmatch");
+                const card = (a) => {
+                    const f = F(a[0]);
+                    return `<div class="mc">${flowerSVG(f.id)}
+      <div class="n">${th ? f.th : f.enName}</div>
+      <div class="e">${f.en}</div>
+      <div class="r">${th ? a[1] : a[2]}</div></div>`;
+                };
+                const fd = F(m.no[0]);
+                box.innerHTML = `<p class="mt">${t.matchT}</p>
+    <div class="mrow">
+      ${m.ok.map(card).join("")}
+      <div class="mc diff">${flowerSVG(fd.id)}
+        <div>
+          <div class="lbl">${t.matchNo}</div>
+          <div class="n">${th ? fd.th : fd.enName}</div>
+          <div class="e">${fd.en}</div>
+          <div class="r">${th ? m.no[1] : m.no[2]}</div>
+        </div>
+      </div>
+    </div>`;
+            }
+
+            /* ---------- result ---------- */
+            function renderResult(id) {
+                const f = F(id),
+                    th = lang === "th";
+                $("#rimg").innerHTML = flowerSVG(id);
+                $("#rimg").setAttribute("aria-label", (th ? f.th : f.enName) + " · " + f.en);
+                $("#rth").textContent = th ? f.th : f.enName;
+                $("#ren").textContent = f.en;
+                $("#rpoem").innerHTML = (th ? f.poem : f.poemEn).map((l) => `<span>${l}</span>`).join("");
+                $("#rdesc").textContent = th ? f.desc : f.descEn;
+                renderMatch(id);
+                warmCardFonts(); /* เริ่มโหลด/อุ่นฟอนต์ล่วงหน้า ตอนกดบันทึกจะได้ไม่ต้องรอ */
+                $("#rallT").textContent = T().allT;
+                $("#rallS").textContent = T().allS;
+                renderGrid("#rgrid");
+            }
+
+            /* ---------- gallery ---------- */
+            function renderGrid(sel) {
+                const th = lang === "th",
+                    g = $(sel || "#grid");
+                if (!g) return;
+                g.innerHTML = "";
+                DATA.flowers.forEach((f) => {
+                    const c = document.createElement("button");
+                    c.type = "button";
+                    c.className = "gcard";
+                    c.innerHTML = `${flowerSVG(f.id)}
+      <div class="n">${th ? f.th : f.enName}</div>
+      <div class="e">${f.en}</div>
+      <div class="d">${th ? f.desc : f.descEn}</div>`;
+                    c.addEventListener("click", () => {
+                        const open = c.classList.contains("open");
+                        g.querySelectorAll(".gcard").forEach((x) => x.classList.remove("open"));
+                        if (!open) c.classList.add("open");
+                    });
+                    g.appendChild(c);
+                });
+            }
+
+            /* ---------- toast ---------- */
+            function toast(m) {
+                const el = $("#toast");
+                el.textContent = m;
+                el.classList.add("on");
+                clearTimeout(el._t);
+                el._t = setTimeout(() => el.classList.remove("on"), 2200);
+            }
+
+            /* ---------- save 9:16 card ---------- */
+            const CARD = { w: 1080, h: 1920 };
+            const spaced = (s) => s.split("").join(" ");
+            function loadImg(src) {
+                return new Promise((res, rej) => {
+                    const i = new Image();
+                    i.onload = () => res(i);
+                    i.onerror = rej;
+                    i.src = src;
+                });
+            }
+            /* ---------- font + text-fitting helpers (iOS-safe) ----------
+               iOS Safari ใช้เว็บฟอนต์ใน <canvas> ไม่ได้ ถ้าฟอนต์นั้นยังไม่เคยถูกใช้
+               จัดหน้าใน DOM มาก่อน และ Google Fonts แยก @font-face ตาม unicode-range
+               (ละติน/ไทยคนละไฟล์) ทำให้ document.fonts.load() แบบไม่ส่งข้อความตัวอย่าง
+               จะโหลดมาแค่ชุดละติน — ตัวไทยจึงตกไปใช้ฟอนต์ระบบและความกว้างเพี้ยน */
+            const CARD_SAMPLE = "กุหลาบทิวลิปเดซี่ ปั้นๆ ก้ำกึ่ง ABCabc0123 —…";
+            const CARD_FONTS = [
+                ["600", 92, "Mitr, sans-serif"],
+                ["500", 33, "Mitr, sans-serif"],
+                ["500", 32, "Mitr, sans-serif"],
+                ["400", 25, "Mitr, sans-serif"],
+                ["400", 42, "'IBM Plex Sans Thai', sans-serif"],
+                ["500", 27, "'IBM Plex Sans Thai', sans-serif"],
+                ["500", 21, "'IBM Plex Sans Thai', sans-serif"],
+                ["400", 27, "'IBM Plex Sans Thai', sans-serif"],
+            ];
+            let _fontsWarm = null;
+            function warmCardFonts() {
+                if (_fontsWarm) return _fontsWarm;
+                _fontsWarm = (async function () {
+                    const warm = document.createElement("div");
+                    warm.setAttribute("aria-hidden", "true");
+                    warm.style.cssText = "position:absolute;left:-99999px;top:-99999px;white-space:nowrap;pointer-events:none;";
+                    CARD_FONTS.forEach(function (fx) {
+                        const sp = document.createElement("span");
+                        sp.style.cssText = "font-family:" + fx[2] + ";font-weight:" + fx[0] + ";font-size:" + fx[1] + "px;";
+                        sp.textContent = CARD_SAMPLE;
+                        warm.appendChild(sp);
+                    });
+                    document.body.appendChild(warm);
+                    void warm.offsetWidth; /* บังคับให้เกิด layout จริง */
+                    try {
+                        await Promise.all(
+                            CARD_FONTS.map(function (fx) {
+                                return document.fonts.load(fx[0] + " " + fx[1] + "px " + fx[2], CARD_SAMPLE);
+                            }),
+                        );
+                        await Promise.race([
+                            document.fonts.ready,
+                            new Promise(function (r) {
+                                setTimeout(r, 4000);
+                            }),
+                        ]);
+                    } catch (e) {}
+                    await new Promise(function (r) {
+                        requestAnimationFrame(function () {
+                            requestAnimationFrame(r);
+                        });
+                    });
+                    warm.remove();
+                })();
+                return _fontsWarm;
+            }
+            /* วัดความกว้างข้อความด้วย DOM
+               บน iOS Safari canvas.measureText() คืนค่า 0 สำหรับข้อความไทย เมื่อฟอนต์
+               มาจาก @font-face ที่ Google Fonts แบ่งตาม unicode-range — ตัวอักษรถูกวาด
+               ออกมาถูกต้อง แต่ความกว้างเป็น 0 ทำให้ textAlign:"center" ไม่ขยับอะไรเลย
+               ข้อความไทยจึงไปเริ่มที่จุดกึ่งกลางแล้วล้นออกขวา ส่วนข้อความละตินยังตรงอยู่
+               การวัดผ่าน DOM ใช้ font cascade ชุดเดียวกับที่หน้าเว็บใช้จัดหน้า จึงเชื่อถือได้ */
+            let _ruler = null;
+            function measureDOM(text, weight, size, family) {
+                if (!_ruler) {
+                    _ruler = document.createElement("span");
+                    _ruler.setAttribute("aria-hidden", "true");
+                    _ruler.style.cssText = "position:absolute;left:-99999px;top:-99999px;white-space:pre;visibility:hidden;";
+                    document.body.appendChild(_ruler);
+                }
+                _ruler.style.font = weight + " " + size + "px " + family;
+                _ruler.textContent = text;
+                return _ruler.getBoundingClientRect().width;
+            }
+            /* ความกว้างที่เชื่อถือได้ = ค่ามากสุดของ DOM กับ canvas (ตัวไหนพังจะได้ 0) */
+            function textW(c, text, weight, size, family) {
+                return Math.max(measureDOM(text, weight, size, family), c.measureText(text).width || 0);
+            }
+            /* ย่อขนาดฟอนต์จนกว้างไม่เกิน maxW แล้ววาดโดยจัดกึ่งกลางที่ cx ด้วยตัวเอง
+               (ไม่พึ่ง textAlign ของ canvas ซึ่งพังบน iOS) */
+            function fillFit(c, text, cx, y, maxW, weight, size, family) {
+                let s = size;
+                c.font = weight + " " + s + "px " + family;
+                let w = textW(c, text, weight, s, family);
+                const min = Math.floor(size * 0.5);
+                if (w > maxW && w > 0) {
+                    s = Math.max(min, Math.floor((s * maxW) / w));
+                    c.font = weight + " " + s + "px " + family;
+                    w = textW(c, text, weight, s, family);
+                    while (w > maxW && s > min) {
+                        s -= 1;
+                        c.font = weight + " " + s + "px " + family;
+                        w = textW(c, text, weight, s, family);
+                    }
+                }
+                c.fillText(text, Math.round(cx - w / 2), y);
+                return s;
+            }
+
+            async function buildCard(id) {
+                const f = F(id),
+                    th = lang === "th";
+                const cv = document.createElement("canvas");
+                cv.width = CARD.w;
+                cv.height = CARD.h;
+                const c = cv.getContext("2d");
+                await warmCardFonts();
+
+                const g = c.createLinearGradient(0, 0, 0, CARD.h);
+                g.addColorStop(0, "#FFF0F4");
+                g.addColorStop(0.6, "#FFF9F5");
+                g.addColorStop(1, "#FFF0F4");
+                c.fillStyle = g;
+                c.fillRect(0, 0, CARD.w, CARD.h);
+
+                c.save();
+                [
+                    [130, 250, 54, 0.55],
+                    [930, 430, 34, 0.5],
+                    [170, 1520, 44, 0.45],
+                    [900, 1650, 64, 0.4],
+                    [880, 180, 26, 0.5],
+                ].forEach(function (p) {
+                    c.globalAlpha = p[3];
+                    c.fillStyle = "#FBE0E9";
+                    c.beginPath();
+                    c.ellipse(p[0], p[1], p[2], p[2] * 0.72, Math.PI / 5, 0, Math.PI * 2);
+                    c.fill();
+                });
+                c.restore();
+
+                const img = await loadImg(flowerURL(id));
+                const S = 400;
+                c.drawImage(img, (CARD.w - S) / 2, 120, S, S);
+
+                /* วาดแบบชิดซ้ายเสมอ แล้วคำนวณจุดกึ่งกลางเองใน fillFit
+                   เพราะ textAlign:"center" ของ canvas ใช้กับข้อความไทยไม่ได้บน iOS Safari */
+                c.textAlign = "left";
+                c.fillStyle = "#A85B72";
+                fillFit(c, th ? f.th : f.enName, CARD.w / 2, 620, 860, "600", 92, "Mitr, sans-serif");
+
+                c.fillStyle = "#DDB4C0";
+                fillFit(c, spaced(f.en.toUpperCase()), CARD.w / 2, 680, 900, "500", 27, "'IBM Plex Sans Thai', sans-serif");
+
+                c.strokeStyle = "#FBE0E9";
+                c.lineWidth = 3;
+                c.beginPath();
+                c.moveTo(CARD.w / 2 - 80, 736);
+                c.lineTo(CARD.w / 2 + 80, 736);
+                c.stroke();
+
+                c.fillStyle = "#A85B72";
+                (th ? f.poem : f.poemEn).forEach(function (l, i) {
+                    fillFit(c, l, CARD.w / 2, 840 + i * 84, 920, "400", 42, "'IBM Plex Sans Thai', sans-serif");
+                });
+
+                /* ---- ดอกไม้ที่เข้ากับคุณ / ต่างขั้ว ---- */
+                const m = MATCH[id];
+                if (m) {
+                    const t = T();
+                    c.fillStyle = "#C98FA1";
+                    fillFit(c, t.cardMatch, CARD.w / 2, 1230, 900, "500", 32, "Mitr, sans-serif");
+
+                    const list = [
+                        [m.ok[0][0], t.tagOk],
+                        [m.ok[1][0], t.tagOk],
+                        [m.no[0], t.tagNo],
+                    ];
+                    const xs = [250, 540, 830],
+                        IS = 150;
+                    const ims = await Promise.all(
+                        list.map(function (o) {
+                            return loadImg(flowerURL(o[0], IS));
+                        }),
+                    );
+                    list.forEach(function (o, i) {
+                        const mf = F(o[0]);
+                        c.drawImage(ims[i], xs[i] - IS / 2, 1276, IS, IS);
+                        c.fillStyle = "#A85B72";
+                        fillFit(c, th ? mf.th : mf.enName, xs[i], 1490, 262, "500", 33, "Mitr, sans-serif");
+                        c.fillStyle = i === 2 ? "#CDA7BC" : "#DDB4C0";
+                        fillFit(c, th ? o[1] : spaced(o[1]), xs[i], 1538, 262, "500", 21, "'IBM Plex Sans Thai', sans-serif");
+                    });
+                }
+
+                c.fillStyle = "#C98FA1";
+                fillFit(c, T().cardFoot, CARD.w / 2, 1670, 900, "400", 27, "'IBM Plex Sans Thai', sans-serif");
+                c.fillStyle = "#DDB4C0";
+                fillFit(c, spaced("By JUPU"), CARD.w / 2, 1740, 900, "400", 25, "Mitr, sans-serif");
+
+                return cv.toDataURL("image/png");
+            }
+
+            /* ---------- wiring ---------- */
+            $("#next").addEventListener("click", function () {
+                if (slide < 4) {
+                    slide++;
+                    renderSlides();
+                    window.scrollTo(0, 0);
+                } else {
+                    qi = 0;
+                    answers = [];
+                    renderQ();
+                    show("s-quiz");
+                }
+            });
+            $("#prev").addEventListener("click", function () {
+                if (slide > 0) {
+                    slide--;
+                    renderSlides();
+                }
+            });
+            $("#back").addEventListener("click", function () {
+                if (qi > 0) {
+                    qi--;
+                    renderQ();
+                }
+            });
+            $("#again").addEventListener("click", function () {
+                slide = 0;
+                qi = 0;
+                answers = [];
+                result = null;
+                renderSlides();
+                show("s-intro");
+            });
+            $("#pre1next").addEventListener("click", function () {
+                show("s-pre2");
+            });
+            $("#pre2after").addEventListener("click", function () {
+                show("s-result");
+            });
+            $("#backres").addEventListener("click", function () {
+                show("s-result");
+            });
+            document.querySelectorAll(".lang button").forEach(function (b) {
+                b.addEventListener("click", function () {
+                    lang = b.dataset.lang;
+                    applyLang();
+                });
+            });
+            $("#share").addEventListener("click", async function () {
+                const url = location.origin + location.pathname;
+                try {
+                    if (navigator.share) {
+                        await navigator.share({ title: document.title, text: T().shareText, url });
+                        return;
+                    }
+                    await navigator.clipboard.writeText(url);
+                    toast(T().copied);
+                } catch (e) {}
+            });
+            $("#save").addEventListener("click", async function () {
+                toast(T().saving);
+                try {
+                    const url = await buildCard(result);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "flower-" + result + ".png";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    $("#ovimg").src = url;
+                    $("#ov").classList.add("on");
+                } catch (e) {
+                    toast("!");
+                }
+            });
+            $("#catbtn").addEventListener("click", function () {
+                gtag("event", "cat_support_click", {
+                    flower_result: result,
+                });
+
+                $("#catov").classList.add("on");
+            });
+            $("#catclose").addEventListener("click", function () {
+                $("#catov").classList.remove("on");
+            });
+            $("#catov").addEventListener("click", function (e) {
+                if (e.target.id === "catov") $("#catov").classList.remove("on");
+            });
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") $("#catov").classList.remove("on");
+            });
+            $("#ovclose").addEventListener("click", function () {
+                $("#ov").classList.remove("on");
+            });
+            $("#ov").addEventListener("click", function (e) {
+                if (e.target.id === "ov") $("#ov").classList.remove("on");
+            });
+
+            applyLang();
+
+            let lastTouchTime = 0;
+            document.addEventListener(
+                "touchend",
+                (event) => {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTouchTime;
+
+                    // If two taps occur within 300ms, prevent the double-tap zoom
+                    if (tapLength < 300 && tapLength > 0) {
+                        event.preventDefault();
+                    }
+                    lastTouchTime = currentTime;
+                },
+                { passive: false },
+            );
+        </script>
+
+        <!-- ========================================================================
+     ▼▼▼ DEV TEST PANEL — เริ่มตรงนี้  (ลบทั้งบล็อกนี้เมื่อไม่ต้องใช้แล้ว) ▼▼▼
+     บล็อกนี้เป็นอิสระ 100% ไม่ได้แก้โค้ดเดิมเลย ลบตั้งแต่บรรทัด "เริ่มตรงนี้"
+     ถึงบรรทัด "จบตรงนี้" ด้านล่าง แล้วเว็บจะกลับเป็นเวอร์ชันปกติทันที
+     ========================================================================= -->
+        <style id="devtest-css">
+            #devtest {
+                position: fixed;
+                right: 12px;
+                bottom: 12px;
+                z-index: 9999;
+                font-family: system-ui, sans-serif;
+            }
+            #devtest * {
+                box-sizing: border-box;
+            }
+            #devtest-btn {
+                background: #8d5f6d;
+                color: #fff;
+                border: 0;
+                border-radius: 999px;
+                padding: 9px 14px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            }
+            #devtest-panel {
+                display: none;
+                margin-top: 8px;
+                width: 230px;
+                background: #fff;
+                border: 1px solid #e7d3da;
+                border-radius: 14px;
+                padding: 12px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            }
+            #devtest.open #devtest-panel {
+                display: block;
+            }
+            #devtest-panel h4 {
+                margin: 0 0 8px;
+                font-size: 12px;
+                letter-spacing: 0.04em;
+                color: #8d5f6d;
+                text-transform: uppercase;
+            }
+            #devtest-panel select,
+            #devtest-panel button.dv {
+                width: 100%;
+                margin-bottom: 7px;
+                padding: 8px 10px;
+                font-size: 13px;
+                border-radius: 9px;
+                border: 1px solid #e7d3da;
+                background: #fff;
+                color: #5c3d47;
+                cursor: pointer;
+            }
+            #devtest-panel button.dv:hover {
+                background: #fbf2f5;
+            }
+            #devtest-panel button.dv.main {
+                background: #8d5f6d;
+                color: #fff;
+                border-color: #8d5f6d;
+            }
+            #devtest-panel .hint {
+                margin: 2px 0 0;
+                font-size: 11px;
+                line-height: 1.5;
+                color: #a9909a;
+            }
+        </style>
+
+        <div id="devtest">
+            <button id="devtest-btn" type="button">🛠 TEST</button>
+            <div id="devtest-panel">
+                <h4>โหมดทดสอบ</h4>
+                <select id="devtest-pick"></select>
+                <button class="dv main" type="button" id="devtest-result">→ ข้ามไปหน้าผลลัพธ์</button>
+                <button class="dv" type="button" id="devtest-all">🌸 ดูดอกไม้ทั้งหมด</button>
+                <button class="dv" type="button" id="devtest-pre">🌿 หน้าคั่นก่อนผลลัพธ์</button>
+                <button class="dv" type="button" id="devtest-quiz">📝 ไปหน้าคำถาม</button>
+                <button class="dv" type="button" id="devtest-home">↺ กลับหน้าแรก</button>
+                <p class="hint">เลือกดอกไม้แล้วกดข้ามไปดูผลลัพธ์ได้เลย ปุ่ม Save / Share ในหน้าผลลัพธ์ใช้งานได้ปกติ</p>
+            </div>
+        </div>
+
+        <script id="devtest-js">
+            (function () {
+                var box = document.getElementById("devtest"),
+                    pick = document.getElementById("devtest-pick");
+
+                DATA.flowers.forEach(function (f) {
+                    var o = document.createElement("option");
+                    o.value = f.id;
+                    o.textContent = f.th + " · " + f.enName;
+                    pick.appendChild(o);
+                });
+
+                document.getElementById("devtest-btn").addEventListener("click", function () {
+                    box.classList.toggle("open");
+                });
+                document.getElementById("devtest-result").addEventListener("click", function () {
+                    result = pick.value;
+                    renderResult(result);
+                    show("s-result");
+                });
+                document.getElementById("devtest-all").addEventListener("click", function () {
+                    if (!result) {
+                        result = pick.value;
+                        renderResult(result);
+                    }
+                    renderGrid();
+                    show("s-all");
+                });
+                document.getElementById("devtest-pre").addEventListener("click", function () {
+                    result = pick.value;
+                    renderResult(result);
+                    show("s-pre1");
+                });
+                document.getElementById("devtest-quiz").addEventListener("click", function () {
+                    qi = 0;
+                    answers = [];
+                    renderQ();
+                    show("s-quiz");
+                });
+                document.getElementById("devtest-home").addEventListener("click", function () {
+                    slide = 0;
+                    qi = 0;
+                    answers = [];
+                    result = null;
+                    renderSlides();
+                    show("s-intro");
+                });
+            })();
+        </script>
+        <!-- ▲▲▲ DEV TEST PANEL — จบตรงนี้ (ลบถึงบรรทัดนี้) ▲▲▲ -->
+    </body>
+</html>
